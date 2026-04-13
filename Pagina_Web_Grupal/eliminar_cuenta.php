@@ -2,8 +2,13 @@
 include 'conexion.php';
 session_start();
 
-$dni = $_SESSION['usuario'];
-mysqli_query($conexion, "DELETE FROM clientes WHERE dni = '$dni'");
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$correo = $_SESSION['usuario'];
+mysqli_query($conexion, "DELETE FROM clientes WHERE correo = '$correo'");
 
 session_destroy();
 header("Location: login.php");
