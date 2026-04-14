@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../includes/conexion.php';
 session_start();
 
 if (!isset($_SESSION['usuario'])) {

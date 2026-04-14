@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../includes/conexion.php';
 session_start();
 
 // Verificar si el usuario está logueado
@@ -38,7 +38,7 @@ if (isset($_POST['subir_objeto'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Objeto Perdido</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="../css/estilos.css">
 </head>
 <body>
 

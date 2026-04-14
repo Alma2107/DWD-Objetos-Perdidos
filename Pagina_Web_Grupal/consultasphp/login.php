@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../includes/conexion.php';
 session_start();
 
 // Si ya está logueado → lo manda al index
@@ -49,7 +49,7 @@ if (isset($_POST['ingresar'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Objetos Perdidos</title>
-    <link rel="stylesheet" href="estilos-login.css">
+    <link rel="stylesheet" href="../css/estilos-login.css">
 </head>
 <body>
     <div class="container" id="container">
@@ -87,6 +87,6 @@ if (isset($_POST['ingresar'])) {
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 </html>

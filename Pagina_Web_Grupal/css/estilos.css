@@ -81,7 +81,7 @@ body {
     text-align: center;
 }
 
-input, textarea {
+input, textarea, select {
     width: 100%;
     padding: 10px;
     margin: 8px 0;
@@ -97,6 +97,11 @@ button {
     background: var(--primary);
     color: white;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    opacity: 0.9;
 }
 
 /* LISTA */
@@ -184,4 +189,26 @@ button {
     background: var(--primary);
     color: white;
     cursor: pointer;
+    transition: 0.3s;
+}
+
+.filtro button:hover {
+    opacity: 0.9;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    .topbar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .nav-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .grid-objetos {
+        grid-template-columns: 1fr;
+    }
 }
