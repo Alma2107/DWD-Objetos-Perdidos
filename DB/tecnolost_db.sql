@@ -52,12 +52,12 @@ CREATE TABLE `solicitud` (
   `curso` varchar(20) DEFAULT NULL,
   `turno` enum('Mañana','Tarde','Vespertino') DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `horario_retiro` datetime DEFAULT NULL
+  `horario_retiro` datetime DEFAULT NULL,
+  `estado` boolean DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
---
 -- Estructura de tabla para la tabla `usuario`
 --
 

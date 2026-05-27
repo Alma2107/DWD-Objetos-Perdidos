@@ -35,21 +35,6 @@ class ObjetoDAO
     }
 
     public function modificar(Objeto $objeto): bool {
-        try {
-            $sql = "UPDATE objetos SET nombre = :nombre, descripcion = :descripcion, categoria = :categoria, fecha_agregado = :fecha_agregado, estado = :estado WHERE id = :id";
-            
-            $query = $this->conexion->prepare($sql);
-
-            return $query->execute([
-                ':nombre'         => $objeto->getNombre(),
-                ':descripcion'    => $objeto->getDescripcion(),
-                ':categoria'      => $objeto->getCategoria(),
-                ':fecha_agregado' => $objeto->getFechaEstado(), 
-            ]);
-            
-        } catch (PDOException $e) {
-            return false;
-        }
     } 
 
     public function __construct(PDO $conexion) {
@@ -57,17 +42,6 @@ class ObjetoDAO
     }
 
     public function estado(Objeto $objeto): bool {
-        try {
-            $sql = "UPDATE objetos SET estado = :estado WHERE id = :id";
-            
-            $query = $this->conexion->prepare($sql);
-
-            return $query->execute([  
-                ':estado'         => $objeto->getEstado(),
-            ]);
-            
-        } catch (PDOException $e) {
-            return false;
         }
     }
 }
