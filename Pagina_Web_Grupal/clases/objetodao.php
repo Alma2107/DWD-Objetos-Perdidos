@@ -30,18 +30,8 @@ class ObjetoDAO
         }
     }
 
-    public function __construct(PDO $conexion) {
-        $this->conexion = $conexion;
-    }
-
     public function modificar(Objeto $objeto): bool {
     } 
-
-    public function __construct(PDO $conexion) {
-        $this->conexion = $conexion;
-    }
-
     public function estado(Objeto $objeto): bool {
-        }
     }
 }
