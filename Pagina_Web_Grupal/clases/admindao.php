@@ -1,27 +1,34 @@
 <?php
-include_once 'Administrador.php';
+include_once 'admin.php';
+include_once 'dao.php';
+include_once 'conexion.php';
 
-class AdministradorDAO {
-    private PDO $conexion;
+class admindao implements dao{
+    private $conexion;
 
-    public function __construct(PDO $conexion) {
-        $this->conexion = $conexion;
+    public function __construct() {
+        $conexion = new Conexion();
+        $this->conexion = $conexion->conectar();
     }
 
-    public function login(string $usuario, string $password): bool {
-        try {
-            $sql = "SELECT password FROM administradores WHERE usuario = :usuario";
-            $query = $this->conexion->prepare($sql);
-            $query->execute([':usuario' => $usuario]);
-            $resultado = $query->fetch(PDO::FETCH_ASSOC);
+    public function insertar($obj): void{
 
-            if ($resultado) {
-                // Compara contraseñas usando el hash seguro de PHP
-                return password_verify($password, $resultado['password']);
-            }
-            return false;
-        } catch (PDOException $e) {
-            return false;
-        }
     }
+
+    public function actualizar($obj): void{
+        
+    }
+
+    public function eliminar($obj): void{
+        
+    }
+
+    public function buscarPorId(int $id){
+        
+    }
+
+    public function listar($obj){
+        
+    }
+
 }

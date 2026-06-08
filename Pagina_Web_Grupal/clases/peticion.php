@@ -20,63 +20,63 @@ class Solicitud
     }
 
     // Getters y Setters
-    public function getIdSolicitud(): int { 
+    public function getIdSolicitud(){ 
         return $this->id_solicitud; 
     }
     public function setIdSolicitud(int $id_solicitud): void { 
         $this->id_solicitud = $id_solicitud; 
     }
 
-    public function getIdObjeto(): int { 
+    public function getIdObjeto(){ 
         return $this->id_objeto; 
     }
     public function setIdObjeto(int $id_objeto): void { 
         $this->id_objeto = $id_objeto; 
     }
 
-    public function getNombre(): string { 
+    public function getNombre(){ 
         return $this->nombre; 
     }
     public function setNombre(string $nombre): void { 
         $this->nombre = $nombre; 
     }
 
-    public function getApellido(): string { 
+    public function getApellido(){ 
         return $this->apellido; 
     }
     public function setApellido(string $apellido): void { 
         $this->apellido = $apellido; 
     }
 
-    public function getCurso(): string { 
+    public function getCurso(){ 
         return $this->curso; 
     }
     public function setCurso(string $curso): void { 
         $this->curso = $curso; 
     }
 
-    public function getTurno(): string { 
+    public function getTurno(){ 
         return $this->turno; 
     }
     public function setTurno(string $turno): void { 
         $this->turno = $turno; 
     }
 
-    public function getEmail(): string { 
+    public function getEmail(){ 
         return $this->email; 
     }
     public function setEmail(string $email): void { 
         $this->email = $email; 
     }
 
-    public function getHorarioRetiro(): string { 
+    public function getHorarioRetiro(){ 
         return $this->horario_retiro; 
     }
     public function setHorarioRetiro(string $horario_retiro): void { 
         $this->horario_retiro = $horario_retiro; 
     }
 
-    public function getEstado(): bool { 
+    public function getEstado(){ 
         return $this->estado; 
     }
     public function setEstado(bool $estado): void { 

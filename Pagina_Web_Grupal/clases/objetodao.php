@@ -1,37 +1,35 @@
 <?php
-include_once 'objeto.php';
+    include_once 'objeto.php';
+    include_once 'dao.php';
+    include_once 'conexion.php';
 
-class ObjetoDAO 
-{
-    private PDO $conexion;
+class objetodao implements dao{
+    private $conexion;
 
-    // El constructor recibe la conexión PDO a la base de datos
-    public function __construct(PDO $conexion) {
-        $this->conexion = $conexion;
+    public function __construct() {
+        $conexion = new Conexion();
+        $this->conexion = $conexion->conectar();
     }
 
-    public function insertar(Objeto $objeto): bool {
-        try {
-            $sql = "INSERT INTO objetos (nombre, descripcion, categoria, fecha_agregado, estado) 
-                    VALUES (:nombre, :descripcion, :categoria, :fecha_agregado, :estado)";
-            
-            $query = $this->conexion->prepare($sql);
+    public function insertar($obj): void{
 
-            return $query->execute([
-                ':nombre'         => $objeto->getNombre(),
-                ':descripcion'    => $objeto->getDescripcion(),
-                ':categoria'      => $objeto->getCategoria(),
-                ':fecha_agregado' => $objeto->getFechaEstado(), 
-                ':estado'         => $objeto->getEstado()
-            ]);
-            
-        } catch (PDOException $e) {
-            return false;
-        }
     }
 
-    public function modificar(Objeto $objeto): bool {
-    } 
-    public function estado(Objeto $objeto): bool {
+    public function actualizar($obj): void{
+        
     }
+
+    public function eliminar($obj): void{
+        
+    }
+
+    public function buscarPorId(int $id){
+        
+    }
+
+    public function listar($obj){
+        
+    }
+
 }
+

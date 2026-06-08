@@ -14,24 +14,23 @@ class Objeto {
         $this->estado = 0;
     }
 
-    // Getters y Setters
-    public function getId(): int {
+    public function getId(){
         return $this->id;
     }
 
-    public function setId(int $id): void {
+    public function setId(int $id): void{
         $this->id = $id;
     }
 
-    public function getNombre(): string {
+    public function getNombre(){
         return $this->nombre;
     }
 
-    public function setNombre(string $nombre): void {
+    public function setNombre(string $nombre): void{
         $this->nombre = $nombre;
     }
 
-    public function getDescripcion(): string {
+    public function getDescripcion(){
         return $this->descripcion;
     }
 
@@ -39,7 +38,7 @@ class Objeto {
         $this->descripcion = $descripcion;
     }
 
-    public function getCategoria(): string {
+    public function getCategoria(){
         return $this->categoria;
     }
 
@@ -47,7 +46,7 @@ class Objeto {
         $this->categoria = $categoria;
     }
 
-    public function getFechaEstado(): string {
+    public function getFechaEstado(){
         return $this->fecha_agregado;
     }
 
@@ -55,7 +54,7 @@ class Objeto {
         $this->fecha_agregado = $fecha_agregado;
     }
 
-    public function getEstado(): int {
+    public function getEstado(){
         return $this->estado;
     }
 

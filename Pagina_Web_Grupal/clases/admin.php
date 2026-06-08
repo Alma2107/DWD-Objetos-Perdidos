@@ -2,20 +2,32 @@
 class Administrador {
     private int $id_admin;
     private string $usuario;
-    private string $password;
+    private string $contrasena;
 
     public function __construct() {
         $this->id_admin = 0;
         $this->usuario = "";
-        $this->password = "";
+        $this->contrasena = "";
     }
 
-    public function getIdAdmin(): int { return $this->id_admin; }
-    public function setIdAdmin(int $id): void { $this->id = $id; }
+    public function getIdAdmin(){ 
+        return $this->id_admin; 
+        }
+    public function setIdAdmin(int $id){ 
+        $this->id_admin = $id; 
+        }
 
-    public function getUsuario(): string { return $this->usuario; }
-    public function setUsuario(string $usuario): void { $this->usuario = $usuario; }
+    public function getUsuario(){ 
+        return $this->usuario; 
+        }
+    public function setUsuario(string $usuario){ 
+        $this->usuario = $usuario; 
+        }
 
-    public function getPassword(): string { return $this->password; }
-    public function setPassword(string $password): void { $this->password = $password; }
+    public function getContrasena(){ 
+        return $this->contrasena; 
+        }
+    public function setContrasena(string $contrasena){ 
+        $this->contrasena = $contrasena; 
+        }
 }

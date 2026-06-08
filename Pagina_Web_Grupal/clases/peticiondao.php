@@ -1,39 +1,35 @@
 <?php
-include_once 'solicitud.php';
+include_once 'peticion.php';
+include_once 'dao.php';
+include_once 'conexion.php';
 
-class SolicitudDAO 
-{
-    private PDO $conexion;
+class peticiondao implements dao{
+    private $conexion;
 
-    public function __construct(PDO $conexion) 
-    {
-        $this->conexion = $conexion;
+    public function __construct() {
+        $conexion = new Conexion();
+        $this->conexion = $conexion->conectar();
     }
 
-    public function responder(Solicitud $solicitud): bool 
-    {}
+    public function insertar($obj): void{
 
-    public function insertar(Solicitud $solicitud): bool 
-    {
-        try {
-            $sql = "INSERT INTO solicitud (id_objeto, nombre, apellido, curso, turno, email, horario_retiro, estado) 
-                    VALUES (:id_objeto, :nombre, :apellido, :curso, :turno, :email, :horario_retiro, :estado)";
-            
-            $query = $this->conexion->prepare($sql);
-
-            return $query->execute([
-                ':id_objeto'      => $solicitud->getIdObjeto(),
-                ':nombre'         => $solicitud->getNombre(),
-                ':apellido'       => $solicitud->getApellido(),
-                ':curso'          => $solicitud->getCurso(),
-                ':turno'          => $solicitud->getTurno(),
-                ':email'          => $solicitud->getEmail(),
-                ':horario_retiro' => $solicitud->getHorarioRetiro(),
-                ':estado'         => $solicitud->getEstado() // PDO lo mapea automáticamente a bit/boolean
-            ]);
-            
-        } catch (PDOException $e) {
-            return false;
-        }
     }
+
+    public function actualizar($obj): void{
+        
+    }
+
+    public function eliminar($obj): void{
+        
+    }
+
+    public function buscarPorId(int $id){
+        
+    }
+
+    public function listar($obj){
+        
+    }
+
 }
+
