@@ -1,9 +1,9 @@
 <?php
 class Conexion {
     private string $host = "localhost";
-    private string $db_name = "tecnolost_db";
-    private string $username = "root";
-    private string $password = "";
+    private string $db_name = "objetos_perdidos";
+    private string $username = "perdidos_user"; 
+    private string $password = "ProyectoPerdidosCarena26!"; 
     public $conn = null;
 
     public function conectar() {
@@ -14,4 +14,4 @@ class Conexion {
 
         return $this->conn;
     }
-}
+} 
