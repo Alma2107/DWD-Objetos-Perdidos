@@ -18,6 +18,8 @@
 
 html {
     scroll-behavior: smooth;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -25,12 +27,23 @@ body {
     background-color: #ffffff;
     color: var(--text-dark);
     overflow-x: hidden;
+    height: 100%;
 }
 
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.hero .container {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* --- BOTONES GENERALES --- */
@@ -47,14 +60,23 @@ body {
 .hero {
     background: linear-gradient(180deg, #001a4d 0%, var(--primary-blue) 100%);
     color: var(--text-white);
-    padding-bottom: 60px;
     position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
 .navbar {
     display: flex;
     justify-content: flex-end;
     padding: 20px 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 20px 40px;
 }
 
 .auth-buttons {
@@ -79,9 +101,10 @@ body {
 
 .hero-content {
     text-align: center;
-    padding-top: 40px;
     max-width: 800px;
     margin: 0 auto;
+    width: 90%;
+    padding: 0 20px;
 }
 
 .hero-content h1 {
@@ -406,6 +429,17 @@ body {
 }
 
 /* --- RESPONSIVE DESIGN (Media Queries) --- */
+@media (max-width: 1024px) {
+    .about-img {
+        width: 280px;
+        height: 280px;
+    }
+    
+    .about-grid {
+        gap: 40px;
+    }
+}
+
 @media (max-width: 768px) {
     .about-grid {
         grid-template-columns: 1fr;
@@ -420,7 +454,223 @@ body {
         font-size: 2.5rem;
     }
 
+    .hero-content h2 {
+        font-size: 1.4rem;
+    }
+
+    .hero-description {
+        font-size: 1rem;
+    }
+
     .divider {
         width: 100%;
+    }
+
+    .divider-white {
+        width: 100%;
+    }
+
+    .objects-grid {
+        gap: 20px;
+    }
+
+    .object-circle {
+        width: 120px;
+        height: 120px;
+    }
+
+    .inventory-card {
+        padding: 30px 20px;
+    }
+
+    .inventory-card h3 {
+        font-size: 1.8rem;
+    }
+
+    .search-container {
+        max-width: 100%;
+    }
+
+    .filter-tags {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .tag {
+        padding: 6px 16px;
+        font-size: 0.85rem;
+    }
+
+    .process-section {
+        padding: 30px 0;
+    }
+
+    .process-section h3 {
+        font-size: 1.8rem;
+    }
+
+    .process-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .about-section {
+        padding: 40px 0;
+    }
+
+    .about-content h3 {
+        font-size: 1.8rem;
+    }
+
+    .about-content p {
+        font-size: 0.95rem;
+    }
+
+    .about-img {
+        width: 250px;
+        height: 250px;
+    }
+
+    .navbar {
+        padding: 15px 20px;
+    }
+
+    .auth-buttons {
+        gap: 8px;
+    }
+
+    .btn-nav {
+        padding: 6px 15px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .hero-content h2 {
+        font-size: 1.1rem;
+    }
+
+    .hero-description {
+        font-size: 0.9rem;
+    }
+
+    .hero-ctas {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 25px;
+    }
+
+    .btn-hero {
+        width: 90%;
+        max-width: 250px;
+    }
+
+    .recent-objects h3 {
+        font-size: 1.5rem;
+    }
+
+    .recent-objects h3 span {
+        font-size: 1.1rem;
+    }
+
+    .object-circle {
+        width: 100px;
+        height: 100px;
+    }
+
+    .inventory-card {
+        padding: 20px 15px;
+        border-radius: 8px;
+    }
+
+    .inventory-card h3 {
+        font-size: 1.4rem;
+    }
+
+    .inventory-card p {
+        font-size: 0.9rem;
+    }
+
+    .search-container input {
+        padding: 12px 12px 12px 45px;
+        font-size: 0.95rem;
+    }
+
+    .search-icon {
+        left: 15px;
+        font-size: 1rem;
+    }
+
+    .filter-tags {
+        gap: 8px;
+        padding: 0 10px;
+    }
+
+    .tag {
+        padding: 5px 12px;
+        font-size: 0.8rem;
+    }
+
+    .process-section {
+        padding: 20px 0;
+    }
+
+    .process-section h3 {
+        font-size: 1.5rem;
+    }
+
+    .process-step {
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .step-number {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+
+    .step-text h4 {
+        font-size: 0.95rem;
+    }
+
+    .step-text p {
+        font-size: 0.85rem;
+    }
+
+    .about-section {
+        padding: 30px 0;
+    }
+
+    .about-content h3 {
+        font-size: 1.5rem;
+    }
+
+    .about-content p {
+        font-size: 0.9rem;
+        text-align: left;
+    }
+
+    .about-img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .navbar {
+        padding: 10px 15px;
+    }
+
+    .auth-buttons {
+        gap: 5px;
+    }
+
+    .btn-nav {
+        padding: 5px 12px;
+        font-size: 0.75rem;
     }
 }
