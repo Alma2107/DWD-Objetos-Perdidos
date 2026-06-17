@@ -3,7 +3,7 @@ require_once 'dao.php';
 require_once '../php/EstadoSolicitud.php';
 require_once '../conexion.php';
 
-class estadoSolicitudDAO implements DAO {
+class EstadoSolicitudDAO implements DAO {
     private $conexion;
 
     public function __construct($conexion) {

@@ -3,7 +3,7 @@ require_once 'dao.php';
 require_once '../php/Solicitante.php';
 require_once '../conexion.php';
 
-class solicitanteDAO implements DAO {
+class SolicitanteDAO implements DAO {
     private $conexion;
 
     public function __construct($conexion) {
@@ -32,7 +32,7 @@ class solicitanteDAO implements DAO {
             $solicitante->getCurso(), 
             $solicitante->getDivision(), 
             $solicitante->getEmail(), 
-            $solicitante->getTelefono(), 
+            $solicitante->getTelefono(),
             $solicitante->getIdSolicitante()
         ]);
     }

@@ -3,7 +3,7 @@ require_once 'dao.php';
 require_once '../php/Ubicacion.php';
 require_once '../conexion.php';
 
-class ubicacionDAO implements DAO {
+class UbicacionDAO implements DAO {
     private $conexion;
 
     public function __construct($conexion) {

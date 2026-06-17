@@ -1,5 +1,5 @@
 <?php
-class estadoSolicitud {
+class EstadoSolicitud {
     private $id_estado_solicitud;
     private $nombre;
     private $descripcion;

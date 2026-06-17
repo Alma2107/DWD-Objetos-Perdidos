@@ -1,5 +1,5 @@
 <?php
-class estadoObjeto {
+class EstadoObjeto {
     private $id_estado_objeto;
     private $nombre;
     private $descripcion;

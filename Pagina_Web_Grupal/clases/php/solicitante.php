@@ -1,5 +1,5 @@
 <?php
-class solicitante {
+class Solicitante {
     private $id_solicitante;
     private $nombre;
     private $apellido;

@@ -1,5 +1,5 @@
 <?php
-class ubicacion {
+class Ubicacion {
     private $id_ubicacion;
     private $nombre;
     private $sector;

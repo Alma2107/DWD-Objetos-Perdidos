@@ -1,9 +1,9 @@
 <?php
 require_once 'dao.php';
 require_once '../php/Solicitud.php';
-require_once '../../conexion.php';
+require_once '../conexion.php';
 
-class solicitudDAO implements DAO {
+class SolicitudDAO implements DAO {
     private $conexion;
 
     public function __construct($conexion) {
@@ -36,7 +36,7 @@ class solicitudDAO implements DAO {
             $solicitud->getFechaSolicitud(), 
             $solicitud->getDescripcionPropiedad(), 
             $solicitud->getFechaResolucion(), 
-            $solicitud->getObservaciones(), 
+            $solicitud->getObservaciones(),
             $solicitud->getIdSolicitud()
         ]);
     }

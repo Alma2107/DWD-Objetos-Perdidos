@@ -1,9 +1,9 @@
 <?php
 require_once 'dao.php';
-require_once '../php/administrador.php';
+require_once '../php/Administrador.php';
 require_once '../conexion.php'; 
 
-class administradorDAO implements DAO {
+class AdministradorDAO implements DAO {
     private $conexion;
 
     public function __construct($conexion) {
@@ -98,4 +98,4 @@ class administradorDAO implements DAO {
         return null;
     }
 }
-?> 
+?>

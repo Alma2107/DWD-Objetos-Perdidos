@@ -1,5 +1,5 @@
 <?php
-class categoria {
+class Categoria {
     private $id_categoria;
     private $nombre;
     private $descripcion;

@@ -1,7 +1,9 @@
 <?php
-require_once 'dao.php';
-require_once '../php/Categoria.php';
-require_once '../conexion.php';
+// Archivo: C:\xampp\htdocs\DWD-Objetos-Perdidos\Pagina_Web_Grupal\clases\daos\cateogoriaDao.php
+
+require_once __DIR__ . '/dao.php';
+require_once __DIR__ . '/../php/cateogoria.php';
+require_once __DIR__ . '/../../conexion.php';
 
 class categoriaDAO implements DAO {
     private $conexion;
@@ -10,13 +12,17 @@ class categoriaDAO implements DAO {
         $this->conexion = $conexion;
     }
 
-    public function insertar($categoria) {
+    public function insertar($categoria): void {
         $sql = "INSERT INTO categoria (nombre, descripcion) VALUES (?, ?)";
         $stmt = $this->conexion->prepare($sql);
-        return $stmt->execute([
+        $stmt->execute([
             $categoria->getNombre(), 
             $categoria->getDescripcion()
         ]);
+    }
+
+    public function actualizar($categoria): void {
+        $this->modificar($categoria);
     }
 
     public function modificar($categoria) {
@@ -29,10 +35,14 @@ class categoriaDAO implements DAO {
         ]);
     }
 
-    public function eliminar($id) {
+    public function eliminar($id): void {
         $sql = "DELETE FROM categoria WHERE id_categoria = ?";
         $stmt = $this->conexion->prepare($sql);
-        return $stmt->execute([$id]);
+        $stmt->execute([$id]);
+    }
+
+    public function buscarPorId($id) {
+        return $this->obtenerPorId($id);
     }
 
     public function obtenerPorId($id) {
@@ -41,7 +51,7 @@ class categoriaDAO implements DAO {
         $stmt->execute([$id]);
         $fila = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($fila) {
-            return new Categoria(
+            return new categoria(
                 $fila['id_categoria'], 
                 $fila['nombre'], 
                 $fila['descripcion']
@@ -50,12 +60,16 @@ class categoriaDAO implements DAO {
         return null;
     }
 
+    public function listar() {
+        return $this->listarTodos();
+    }
+
     public function listarTodos() {
         $sql = "SELECT * FROM categoria";
         $stmt = $this->conexion->query($sql);
         $resultados = [];
         while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $resultados[] = new Categoria(
+            $resultados[] = new categoria(
                 $fila['id_categoria'], 
                 $fila['nombre'], 
                 $fila['descripcion']
