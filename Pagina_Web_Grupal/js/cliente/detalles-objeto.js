@@ -1,9 +1,14 @@
-// Archivo: js/detalles-objeto.js
+// Archivo: js/cliente/detalles-objeto.js
 document.addEventListener("DOMContentLoaded", () => {
 
-    // Escuchamos los clics en TODO el sitio web
+    const pantallaPrincipal = document.getElementById('pantalla-principal');
+    const contenedorDetalle = document.getElementById('formularioObjetoContenedor');
+    const btnInicioNav = document.getElementById('btnInicioNav');
+    const btnLogoInicio = document.getElementById('btnLogoInicio');
+    const btnReclamarNav = document.getElementById('btnReclamarNav');
+
+    // Escuchamos los clics en las tarjetas del carrusel o de la cuadrícula
     document.addEventListener("click", (e) => {
-        // .closest() busca hacia arriba en el HTML hasta encontrar el contenedor que tiene el data-id
         const tarjetaObjeto = e.target.closest('.carousel-item, .object-circle');
         
         if (tarjetaObjeto) {
@@ -14,49 +19,61 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Acción para volver al inicio al pulsar "Inicio" o el Logo
+    [btnInicioNav, btnLogoInicio].forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.body.className = "modo-inicio";
+            contenedorDetalle.style.display = 'none';
+            pantallaPrincipal.style.display = 'block';
+            btnReclamarNav.style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    // Acción para el botón reclamar objeto
+    btnReclamarNav.addEventListener('click', () => {
+        const idActual = btnReclamarNav.getAttribute('data-id-objeto');
+        alert(`Iniciando reclamo para el objeto ID: ${idActual}. Dirígete a la administración.`);
+    });
+
     function cargarVistaDetalle(id) {
-        // Llamamos al archivo PHP pasándole el ID del objeto
         fetch(`consultas_php/usuario/obtener_objeto.php?id=${id}`)
             .then(response => {
                 if (!response.ok) throw new Error("No se encontraron datos de este objeto.");
                 return response.json();
             })
             .then(data => {
-                renderizarFormularioObjeto(data);
+                renderizarFormularioObjeto(data, id);
             })
             .catch(err => {
                 console.error("Error al obtener objeto:", err);
-                alert("No se pudo cargar el detalle del objeto. Revisa la consola.");
+                alert("No se pudo cargar el detalle del objeto.");
             });
     }
 
-    function renderizarFormularioObjeto(objeto) {
-        // Buscamos si ya existe el contenedor en la pantalla
-        let contenedorDetalle = document.getElementById('formularioObjetoContenedor');
+    function renderizarFormularioObjeto(objeto, id) {
+        // Cambiamos el modo de pantalla en el body
+        document.body.className = "modo-detalle";
         
-        if (!contenedorDetalle) {
-            contenedorDetalle = document.createElement('div');
-            contenedorDetalle.id = 'formularioObjetoContenedor';
-            // Lo insertamos justo antes del footer de tu index.php
-            const footer = document.querySelector('.main-footer');
-            if (footer) {
-                footer.parentNode.insertBefore(contenedorDetalle, footer);
-            } else {
-                document.body.appendChild(contenedorDetalle);
-            }
-        }
+        // Ocultamos el inicio y mostramos el contenedor de detalles arriba
+        pantallaPrincipal.style.display = 'none';
+        contenedorDetalle.style.display = 'block';
+        
+        // Configuramos y mostramos el botón de reclamo en la barra superior
+        btnReclamarNav.setAttribute('data-id-objeto', id);
+        btnReclamarNav.style.display = 'inline-block';
 
-        // Estructura HTML con las clases exactas de tu archivo detalles.css
+        // Construimos el HTML limpio usando tu estructura exacta
         contenedorDetalle.innerHTML = `
             <div class="modal-detalle-container">
                 <div class="detalle-left">
                     <div class="foto-circulo">
-                        <img src="${objeto.foto}" alt="${objeto.nombre}">
+                        <img src="${objeto.foto ? objeto.foto : 'img/default.png'}" alt="${objeto.nombre}">
                     </div>
                 </div>
                 <div class="detalle-right">
                     <h2>${objeto.nombre}</h2>
-                    <div class="status-badge">En custodia</div>
+                    <div class="status-badge">Estado: En custodia</div>
                     
                     <div class="info-row">
                         <div class="info-box">
@@ -77,10 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             </div>
         `;
-
-        // Desplazamiento automático y suave hacia la tarjeta azul
-        setTimeout(() => {
-            contenedorDetalle.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 100);
+        
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 });

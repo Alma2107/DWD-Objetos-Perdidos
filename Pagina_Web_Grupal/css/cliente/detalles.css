@@ -1,0 +1,297 @@
+:root {
+    --blue-bg: #0057f5;
+    --card-blue: #0868d8;
+    --badge-blue: #001f8f;
+    --text-light: #ffffff;
+    --border-black: #000000;
+}
+
+/* Cabecera de Navegación Fija */
+.nav-header {
+    background-color: #001f8f; /* Tu badge blue o un tono oscuro corporativo */
+    color: #ffffff;
+    padding: 15px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.nav-header .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 18px;
+}
+
+.nav-header .auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* Botones genéricos de navegación */
+.btn-nav {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.btn-nav.btn-outline {
+    border: 2px solid #ffffff;
+}
+
+.btn-nav.btn-outline:hover {
+    background-color: #ffffff;
+    color: #001f8f;
+}
+
+/* El botón dinámico para Reclamar Objeto */
+.btn-reclamar {
+    background-color: #ffcc00; /* Un color llamativo que contraste con el azul */
+    color: #000000;
+    border: 2px solid #ffcc00;
+}
+
+.btn-reclamar:hover {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+}
+
+/* Estilos de margen para acoplar la tarjeta de detalle a la nueva parte superior */
+#formularioObjetoContenedor {
+    width: 100%;
+    background-color: #ffffff;
+    padding: 60px 0;
+    box-sizing: border-box;
+}
+
+/* Contenedor dinámico creado por tu JS (La base de la sección de detalles) */
+#formularioObjetoContenedor {
+    width: 100%;
+    background-color: #ffffff; /* Base blanca para que resalte en el index */
+    padding: 40px 0;
+    margin-top: 20px;
+    border-top: 2px solid rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* Contenedor interno que alinea la foto y la tarjeta azul */
+.modal-detalle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+
+    max-width: 1180px;
+    min-height: 360px;
+    margin: 0 auto;
+    padding: 0 18px;
+
+    background: transparent;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+}
+
+/* ==========================================
+   PANEL IZQUIERDO: IMAGEN CIRCULAR
+   ========================================== */
+.modal-detalle-container .detalle-left {
+    flex: 0 0 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-detalle-container .detalle-left .foto-circulo {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    border: 3px solid var(--border-black);
+    background-color: #ffffff;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.modal-detalle-container .detalle-left .foto-circulo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ==========================================
+   PANEL DERECHO: TARJETA AZUL DE DETALLES
+   ========================================== */
+.modal-detalle-container .detalle-right {
+    flex: 1;
+    max-width: 730px;
+    min-height: 270px;
+
+    background-color: var(--card-blue);
+    color: var(--text-light);
+
+    padding: 20px 24px;
+    border-radius: 8px; /* Un sutil redondeado queda mucho mejor con las cajas internas */
+    box-shadow: 0 8px 24px rgba(8, 104, 216, 0.3);
+    box-sizing: border-box;
+}
+
+/* Título del objeto */
+.modal-detalle-container .detalle-right h2 {
+    margin: 0 0 10px;
+    padding-left: 0;
+
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff;
+}
+
+/* Estado (Badge) */
+.modal-detalle-container .detalle-right .status-badge {
+    display: inline-block; /* Cambiado a inline-block para que no ocupe todo el ancho */
+    min-width: 160px;
+
+    margin: 0 0 20px;
+    padding: 6px 12px;
+
+    background-color: var(--badge-blue);
+    color: #ffffff;
+
+    border-radius: 14px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Línea separadora */
+.modal-detalle-container .detalle-right::after {
+    content: "";
+    display: block;
+    height: 2px;
+    margin: 0 0 20px 0;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Filas de cajas pequeñas */
+.modal-detalle-container .detalle-right .info-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+/* Cajas pequeñas internas (Ahora blancas para que contrasten bien con el texto negro) */
+.modal-detalle-container .detalle-right .info-row .info-box {
+    flex: 1;
+
+    min-height: 38px;
+    padding: 10px 14px;
+
+    border: 3px solid var(--border-black);
+    border-radius: 7px;
+
+    background-color: #ffffff; 
+    color: #000000;
+
+    font-size: 0.95rem;
+    box-sizing: border-box;
+}
+
+.modal-detalle-container .detalle-right .info-row .info-box strong {
+    color: #000000;
+    font-weight: 700;
+}
+
+/* Caja grande contenedora de características */
+.modal-detalle-container .detalle-right .info-box-large {
+    min-height: 112px;
+    padding: 14px;
+
+    border: 3px solid var(--border-black);
+    border-radius: 7px;
+
+    background-color: #ffffff;
+    color: #000000;
+
+    box-sizing: border-box;
+}
+
+.modal-detalle-container .detalle-right .info-box-large strong {
+    display: block;
+    margin-bottom: 8px;
+
+    color: #000000;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.modal-detalle-container .detalle-right .info-box-large p {
+    margin: 0 0 8px 0;
+    color: #000000;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.modal-detalle-container .detalle-right .info-box-large p:last-of-type {
+    margin-bottom: 0;
+}
+
+/* Observaciones adicionales dentro de la caja grande */
+.modal-detalle-container .detalle-right .info-box-large .extra-obs {
+    margin-top: 12px;
+    padding-top: 10px;
+
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    color: #444444;
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+@media (max-width: 768px) {
+    .modal-detalle-container {
+        flex-direction: column;
+        padding: 10px 20px;
+        gap: 20px;
+    }
+
+    .modal-detalle-container .detalle-left {
+        flex: none;
+    }
+
+    .modal-detalle-container .detalle-left .foto-circulo {
+        width: 220px;
+        height: 220px;
+    }
+
+    .modal-detalle-container .detalle-right {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-detalle-container .detalle-right .info-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .modal-detalle-container .detalle-right h2 {
+        font-size: 1.3rem;
+    }
+
+    .modal-detalle-container .detalle-right .status-badge {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
