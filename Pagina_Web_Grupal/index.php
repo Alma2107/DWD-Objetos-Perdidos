@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Archivo: C:\xampp\htdocs\DWD-Objetos-Perdidos\Pagina_Web_Grupal\index.php
 
 require_once __DIR__ . '/conexion.php';                 
@@ -11,11 +11,24 @@ try {
     $conexionObjeto = new Conexion();
     $db = $conexionObjeto->conectar();
 
-    // Carga inicial de Objetos
     $daoObjeto = new ObjetoDAO($db);
-    $objetosIniciales = $daoObjeto->listarTodos(); 
+    
+    // 1. Carga para el carrusel superior: Solo objetos perdidos HOY
+    $fechaHoy = date('Y-m-d');
+    $objetosDeHoy = [];
+    
+    // Obtenemos todos los objetos para filtrar o puedes crear un método en tu DAO si prefieres: $daoObjeto->listarPorFecha($fechaHoy);
+    $todosLosObjetos = $daoObjeto->listarTodos(); 
+    if (!empty($todosLosObjetos)) {
+        foreach ($todosLosObjetos as $obj) {
+            // Evaluamos si coincide con la fecha actual (asumiendo que getFechaEncontrado() devuelve 'YYYY-MM-DD' o similar)
+            if (substr($obj->getFechaEncontrado(), 0, 10) === $fechaHoy) {
+                $objetosDeHoy[] = $obj;
+            }
+        }
+    }
 
-    // Carga inicial del Selector de Categorías
+    // 2. Carga inicial del Selector de Categorías e Inventario completo
     $daoCategoria = new categoriaDAO($db);
     $categorias = $daoCategoria->listarTodos();
 
@@ -35,7 +48,7 @@ try {
     <link rel="stylesheet" href="css/estilo.css">
     
     <style>
-        /* Únicamente mantenemos los estilos del modal interactivo que no existían en tu CSS */
+        /* Modales e interactividad no presentes en estilo.css */
         .modal { 
             display: none; 
             position: fixed; 
@@ -70,7 +83,6 @@ try {
         }
         .close-btn:hover { color: #0046c7; }
         
-        /* Ajuste de compatibilidad para los nombres dentro de los círculos dinámicos */
         .obj-grid-title {
             margin-top: 10px;
             font-size: 0.9rem;
@@ -78,7 +90,6 @@ try {
             color: #002b80;
         }
         
-        /* Contenedor del selector adaptado al diseño azul */
         .buscador-contenedor { 
             margin: 25px auto; 
             text-align: center; 
@@ -117,26 +128,12 @@ try {
 
     <main class="recent-objects">
         <div class="container">
-            <h3>Objetos Encontrados <span>Explora los elementos bajo resguardo</span></h3>
+            <h3>Objetos Encontrados <span>Hoy</span></h3>
             <hr class="divider">
             
-            <div class="buscador-contenedor">
-                <label for="selectCategoria" style="font-weight: bold; margin-right: 10px; color: #002b80;">Filtrar por Categoría:</label>
-                <select id="selectCategoria" name="categoria">
-                    <option value="">Todas las categorías</option>
-                    <?php if (!empty($categorias)): ?>
-                        <?php foreach ($categorias as $cat): ?>
-                            <option value="<?php echo $cat->getIdCategoria(); ?>">
-                                <?php echo htmlspecialchars($cat->getNombre()); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </select>
-            </div>
-
-            <div class="objects-grid" id="gridPertenencias">
-                <?php if (!empty($objetosIniciales)): ?>
-                    <?php foreach ($objetosIniciales as $obj): ?>
+            <div class="objects-grid">
+                <?php if (!empty($objetosDeHoy)): ?>
+                    <?php foreach ($objetosDeHoy as $obj): ?>
                         <div class="object-circle" onclick="abrirModalDetalle(
                             '<?php echo htmlspecialchars($obj->getNombre(), ENT_QUOTES); ?>', 
                             '<?php echo htmlspecialchars($obj->getDescripcion() ?? '', ENT_QUOTES); ?>', 
@@ -150,11 +147,59 @@ try {
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <p style="text-align: center; color: #666; width: 100%;">No hay objetos registrados en este momento.</p>
+                    <p style="text-align: center; color: #666; width: 100%;">No se han reportado objetos en el día de hoy.</p>
                 <?php endif; ?>
             </div>
         </div>
     </main>
+
+    <section id="caracteristicas" class="inventory-section">
+        <div class="container">
+            <div class="inventory-card">
+                <h3>Inventario completo</h3>
+                <p>Usa los filtros rápidos por categoría o escribe palabras clave para dar con tus pertenencias rápidamente.</p>
+                
+                <div class="search-container">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="text" id="inputBusqueda" placeholder="Busca por nombre o descripción de pertenencia...">
+                </div>
+
+                <div class="buscador-contenedor">
+                    <label for="selectCategoria" style="font-weight: bold; margin-right: 10px; color: #ffffff;">Filtrar por Categoría:</label>
+                    <select id="selectCategoria" name="categoria">
+                        <option value="">Todas las categorías</option>
+                        <?php if (!empty($categorias)): ?>
+                            <?php foreach ($categorias as $cat): ?>
+                                <option value="<?php echo $cat->getIdCategoria(); ?>">
+                                    <?php echo htmlspecialchars($cat->getNombre()); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </div>
+
+                <div class="objects-grid" id="gridPertenencias" style="margin-top: 30px;">
+                    <?php if (!empty($todosLosObjetos)): ?>
+                        <?php foreach ($todosLosObjetos as $obj): ?>
+                            <div class="object-circle" onclick="abrirModalDetalle(
+                                '<?php echo htmlspecialchars($obj->getNombre(), ENT_QUOTES); ?>', 
+                                '<?php echo htmlspecialchars($obj->getDescripcion() ?? '', ENT_QUOTES); ?>', 
+                                '<?php echo htmlspecialchars($obj->getColor() ?? '', ENT_QUOTES); ?>', 
+                                '<?php echo htmlspecialchars($obj->getMarca() ?? '', ENT_QUOTES); ?>', 
+                                '<?php echo $obj->getFechaEncontrado(); ?>', 
+                                '<?php echo htmlspecialchars($obj->getFoto() ?? 'img/default.png', ENT_QUOTES); ?>'
+                            )">
+                                <img src="<?php echo $obj->getFoto() ? htmlspecialchars($obj->getFoto()) : 'img/default.png'; ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
+                                <p class="obj-grid-title" style="color: #ffffff;"><?php echo htmlspecialchars($obj->getNombre()); ?></p>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p style="text-align: center; color: #fff; width: 100%;">No hay objetos registrados en el inventario.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section class="process-section">
         <div class="container">
@@ -167,21 +212,21 @@ try {
                     <div class="step-number">1</div>
                     <div class="step-text">
                         <h4>Identifica tu Objeto</h4>
-                        <p>Busca en nuestro catálogo interactivo el elemento que extraviaste filtrando por categorías.</p>
+                        <p>Busca en nuestro catálogo interactivo el elemento que extraviaste filtrando por categorías o usando el buscador.</p>
                     </div>
                 </div>
                 <div class="process-step">
                     <div class="step-number">2</div>
                     <div class="step-text">
                         <h4>Inicia el Reclamo</h4>
-                        <p>Presiona sobre el objeto para ver los detalles y acércate al administrador con tu comprobante.</p>
+                        <p>Presiona sobre el objeto para ver los detalles y acércate al administrador con la información del elemento.</p>
                     </div>
                 </div>
                 <div class="process-step">
                     <div class="step-number">3</div>
                     <div class="step-text">
                         <h4>Validación y Retiro</h4>
-                        <p>Una vez verificada la propiedad por el personal, se te hará entrega inmediata del mismo.</p>
+                        <p>Una vez verificada la propiedad por el personal en la biblioteca, se te hará entrega inmediata del mismo.</p>
                     </div>
                 </div>
             </div>
@@ -205,16 +250,27 @@ try {
 
     <footer class="main-footer">
         <div class="container">
-            <p>&copy; 2026 Tecnolost - Sistema de Gestión de Objetos Perdidos. Todos los derechos reservados.</p>
+            <p>&copy; 2026 Tecnolost - Sistema de Gestión de Objetos Perdidos. Todos los derechos reservados. Diseñado por Dante.</p>
         </div>
     </footer>
 
     <script>
-        document.getElementById('selectCategoria').addEventListener('change', function() {
-            const idCategoria = this.value;
+        const selectCategoria = document.getElementById('selectCategoria');
+        const inputBusqueda = document.getElementById('inputBusqueda');
+
+        // Escuchar tanto el cambio de select como la escritura en el input
+        selectCategoria.addEventListener('change', ejecutarFiltro);
+        inputBusqueda.addEventListener('input', ejecutarFiltro);
+
+        function ejecutarFiltro() {
+            const idCategoria = selectCategoria.value;
+            const textoBusqueda = inputBusqueda.value.trim();
             const gridPertenencias = document.getElementById('gridPertenencias');
 
-            fetch(`consultas_php/usuario/buscar.php?id_categoria=${idCategoria}`)
+            // Enviamos ambos parámetros al backend (Asegúrate de actualizar tu buscar.php para recibir texto si lo deseas)
+            let url = `consultas_php/usuario/buscar.php?id_categoria=${idCategoria}&texto=${encodeURIComponent(textoBusqueda)}`;
+
+            fetch(url)
                 .then(response => {
                     if (!response.ok) throw new Error("Error de respuesta de red.");
                     return response.json();
@@ -230,25 +286,24 @@ try {
                             const marcaSanitizado = (obj.marca || '').replace(/'/g, "\\'");
                             const fotoRuta = obj.foto ? obj.foto : 'img/default.png';
 
-                            // Estructura idéntica que hereda las animaciones hover de estilo.css
                             htmlResultado += `
                                 <div class="object-circle" onclick="abrirModalDetalle('${nombreSanitizado}', '${descSanitizada}', '${colorSanitizado}', '${marcaSanitizado}', '${obj.fecha_encontrado}', '${fotoRuta}')">
                                     <img src="${fotoRuta}" alt="${obj.nombre}">
-                                    <p class="obj-grid-title">${obj.nombre}</p>
+                                    <p class="obj-grid-title" style="color: #ffffff;">${obj.nombre}</p>
                                 </div>
                             `;
                         });
                     } else {
-                        htmlResultado = "<p style='text-align: center; color: #ffffff; width: 100%; background: #0056f0; padding: 15px; border-radius: 8px;'>No se encontraron objetos en esta categoría.</p>";
+                        htmlResultado = "<p style='text-align: center; color: #ffffff; width: 100%; background: #001f66; padding: 15px; border-radius: 8px;'>No se encontraron objetos con los criterios seleccionados.</p>";
                     }
 
                     gridPertenencias.innerHTML = htmlResultado;
                 })
                 .catch(err => {
                     console.error("Error:", err);
-                    gridPertenencias.innerHTML = "<p style='color: red; text-align: center; width:100%;'>Error al procesar la búsqueda.</p>";
+                    gridPertenencias.innerHTML = "<p style='color: #ff9999; text-align: center; width:100%;'>Error al procesar la búsqueda.</p>";
                 });
-        });
+        }
 
         function abrirModalDetalle(nombre, descripcion, color, marca, fecha, foto) {
             document.getElementById('modalNombre').innerText = nombre;
