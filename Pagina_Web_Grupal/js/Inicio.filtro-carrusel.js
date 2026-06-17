@@ -1,11 +1,10 @@
-// Archivo: js/filtro-carrusel.js
 
 document.addEventListener("DOMContentLoaded", () => {
     const selectCategoria = document.getElementById('selectCategoria');
     const inputBusqueda = document.getElementById('inputBusqueda');
     const gridPertenencias = document.getElementById('gridPertenencias');
 
-    // --- SISTEMA DE FILTRADO (FETCH AJAX) ---
+
     if (selectCategoria && inputBusqueda && gridPertenencias) {
         selectCategoria.addEventListener('change', ejecutarFiltro);
         inputBusqueda.addEventListener('input', ejecutarFiltro);
@@ -48,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
     }
 
-    // --- ANIMACIÓN INTERACTIVA DEL CARRUSEL INFINITO ---
+    
     const container = document.getElementById('carouselContainer');
     const track = document.getElementById('carouselTrack');
 
@@ -85,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
             requestAnimationFrame(animarCarrusel);
         }
 
-        // Solo se ejecuta si hay suficientes elementos para desplazar
+       
         if (track.children.length > 1) {
             requestAnimationFrame(animarCarrusel);
         }

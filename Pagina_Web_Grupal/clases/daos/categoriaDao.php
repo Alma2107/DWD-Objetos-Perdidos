@@ -1,5 +1,5 @@
 <?php
-// Archivo: C:\xampp\htdocs\DWD-Objetos-Perdidos\Pagina_Web_Grupal\clases\daos\cateogoriaDao.php
+
 
 require_once __DIR__ . '/dao.php';
 require_once __DIR__ . '/../php/Categoria.php';

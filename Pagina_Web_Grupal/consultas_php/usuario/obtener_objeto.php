@@ -1,5 +1,5 @@
 <?php
-// Archivo: consultas_php/usuario/obtener_objeto.php
+
 header('Content-Type: application/json; charset=utf-8');
 
 try {
@@ -24,7 +24,7 @@ try {
         throw new Exception("ID de objeto no válido.");
     }
 
-    // Inicializamos el DAO y buscamos por ID usando tu método nativo
+
     $daoObjeto = new ObjetoDAO($db);
     $objeto = $daoObjeto->obtenerPorId((int)$id);
 
@@ -34,7 +34,7 @@ try {
         exit;
     }
 
-    // Mapeamos los datos para enviarlos estructurados al frontend
+  
     $respuesta = [
         'id'               => $objeto->getIdObjeto(),
         'nombre'           => $objeto->getNombre(),

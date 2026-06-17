@@ -3,9 +3,9 @@
 
 class Conexion {
     private string $host = "localhost";
-    private string $db_name = "tecnolohost"; // <- Mantenemos el nombre correcto de tu base de datos
-    private string $username = "root";       // <- Usamos el usuario administrador por defecto de XAMPP
-    private string $password = "";           // <- Sin contraseña (vacío), tal como viene configurado tu XAMPP
+    private string $db_name = "tecnolohost"; 
+    private string $username = "root";       
+    private string $password = "";        
     public $conn = null;
 
     public function conectar() {

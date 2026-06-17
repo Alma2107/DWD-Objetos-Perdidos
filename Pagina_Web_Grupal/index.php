@@ -1,5 +1,5 @@
 ﻿<?php
-// Archivo: C:\xampp\htdocs\DWD-Objetos-Perdidos\Pagina_Web_Grupal\index.php
+
 
 require_once __DIR__ . '/conexion.php';                 
 require_once __DIR__ . '/clases/php/Objeto.php';       
@@ -13,18 +13,18 @@ try {
 
     $daoObjeto = new ObjetoDAO($db);
     
-    // 1. Carga para el carrusel superior
+
     $objetosDeHoy = [];
     
     $todosLosObjetos = $daoObjeto->listarTodos(); 
     if (!empty($todosLosObjetos)) {
         foreach ($todosLosObjetos as $obj) {
-            // FUERZO A QUE SE METAN TODOS LOS OBJETOS AL CARRUSEL PARA DESCARTAR ERRORES DE FILTRO
+        
             $objetosDeHoy[] = $obj;
         }
     }
 
-    // 2. Carga inicial del Selector de Categorías e Inventario completo
+
     $daoCategoria = new CategoriaDAO($db); 
     $categorias = $daoCategoria->listarTodos();
 

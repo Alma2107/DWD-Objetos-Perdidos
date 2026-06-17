@@ -1,4 +1,4 @@
-// Archivo: js/cliente/detalles-objeto.js
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const pantallaPrincipal = document.getElementById('pantalla-principal');
@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Acción para volver al inicio al pulsar "Inicio" o el Logo
     [btnInicioNav, btnLogoInicio].forEach(btn => {
         btn.addEventListener('click', () => {
             document.body.className = "modo-inicio";

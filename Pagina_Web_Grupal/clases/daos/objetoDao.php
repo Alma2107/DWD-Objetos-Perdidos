@@ -1,7 +1,5 @@
 <?php
-// Archivo: clases/daos/objetoDao.php
 
-// Usamos __DIR__ para evitar fallos de rutas relativas desde cualquier parte de la app
 require_once __DIR__ . '/dao.php';
 require_once __DIR__ . '/../php/objeto.php'; 
 require_once __DIR__ . '/../../conexion.php';
@@ -9,21 +7,19 @@ require_once __DIR__ . '/../../conexion.php';
 class ObjetoDAO implements dao { 
     private $conexion;
 
-    // El constructor recibe la conexión PDO directamente
+    
     public function __construct($conexion) {
         $this->conexion = $conexion;
     }
 
-    /**
-     * Inserta un nuevo objeto perdido en la base de datos tecnolost.
-     */
+    
     public function insertar($obj): void {
         $sql = "INSERT INTO objeto (id_categoria, id_ubicacion, id_estado_objeto, id_administrador, nombre, descripcion, color, marca, fecha_encontrado, fecha_registro, foto, observaciones) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $this->conexion->prepare($sql);
         
-        // Si el objeto no trae una fecha de registro asignada, usamos la del día de hoy (AAAA-MM-DD)
+      
         $fechaRegistro = $obj->getFechaRegistro() ? $obj->getFechaRegistro() : date('Y-m-d');
 
         $stmt->execute([
@@ -42,9 +38,6 @@ class ObjetoDAO implements dao {
         ]);
     }
 
-    /**
-     * Modifica un objeto existente (Cumple con dao::modificar)
-     */
     public function modificar($obj): void {
         $sql = "UPDATE objeto SET 
                     id_categoria = ?, 
@@ -79,18 +72,15 @@ class ObjetoDAO implements dao {
         ]);
     }
 
-    /**
-     * Elimina físicamente un objeto de la base de datos por su ID.
-     */
+ 
     public function eliminar($id): void {
         $sql = "DELETE FROM objeto WHERE id_objeto = ?";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute([$id]);
     }
 
-    /**
-     * Busca un objeto específico filtrándolo por su ID (Cumple con dao::obtenerPorId)
-     */
+    
+
     public function obtenerPorId($id) {
         $sql = "SELECT * FROM objeto WHERE id_objeto = ?";
         $stmt = $this->conexion->prepare($sql);
@@ -117,9 +107,6 @@ class ObjetoDAO implements dao {
         return null;
     }
 
-    /**
-     * Devuelve una lista con todos los objetos guardados.
-     */
     public function listar() {
         $sql = "SELECT * FROM objeto ORDER BY id_objeto DESC";
         $stmt = $this->conexion->query($sql);
@@ -145,21 +132,16 @@ class ObjetoDAO implements dao {
         return $resultados;
     }
 
-    /**
-     * Busca y filtra objetos por categoría y/o coincidencia de texto (nombre o descripción).
-     * Este método es el que consume de forma asíncrona consultas_php/usuario/buscar.php
-     */
     public function buscarFiltrado($id_categoria = '', $texto = '') {
         $sql = "SELECT * FROM objeto WHERE 1=1";
         $params = [];
 
-        // Filtro por categoría si viene una opción seleccionada válida
         if ($id_categoria !== '' && is_numeric($id_categoria)) {
             $sql .= " AND id_categoria = :id_categoria";
             $params[':id_categoria'] = (int)$id_categoria;
         }
 
-        // Filtro por coincidencia de texto en nombre o descripción
+
         if ($texto !== '') {
             $sql .= " AND (nombre LIKE :texto OR descripcion LIKE :texto)";
             $params[':texto'] = '%' . $texto . '%';
@@ -191,9 +173,7 @@ class ObjetoDAO implements dao {
         return $resultados;
     }
 
-    /**
-     * Alias por si tu index.php o controladores llaman a 'listarTodos()' o 'buscarPorId()'
-     */
+
     public function listarTodos() {
         return $this->listar();
     }
