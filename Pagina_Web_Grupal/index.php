@@ -17,11 +17,9 @@ try {
     $fechaHoy = date('Y-m-d');
     $objetosDeHoy = [];
     
-    // Obtenemos todos los objetos para filtrar o puedes crear un método en tu DAO si prefieres: $daoObjeto->listarPorFecha($fechaHoy);
     $todosLosObjetos = $daoObjeto->listarTodos(); 
     if (!empty($todosLosObjetos)) {
         foreach ($todosLosObjetos as $obj) {
-            // Evaluamos si coincide con la fecha actual (asumiendo que getFechaEncontrado() devuelve 'YYYY-MM-DD' o similar)
             if (substr($obj->getFechaEncontrado(), 0, 10) === $fechaHoy) {
                 $objetosDeHoy[] = $obj;
             }
@@ -110,12 +108,14 @@ try {
 <body>
 
     <header class="hero">
-        <nav class="navbar">
-            <div class="auth-buttons">
-                <a href="#" class="btn btn-nav btn-outline">Iniciar Sesión</a>
-                <a href="#" class="btn btn-nav btn-outline">Registrarse</a>
-            </div>
-        </nav>
+        <div class="container">
+            <nav class="navbar">
+                <div class="auth-buttons">
+                    <a href="#" class="btn btn-nav btn-outline">Iniciar Sesión</a>
+                    <a href="#" class="btn btn-nav btn-outline">Registrarse</a>
+                </div>
+            </nav>
+        </div>
         
         <div class="hero-content">
             <h1><i class="fa-solid fa-magnifying-glass"></i> Tecnolost</h1>
@@ -126,30 +126,63 @@ try {
         </div>
     </header>
 
-    <main class="recent-objects">
-        <div class="container">
+      <svg class="wave" viewBox="0 0 1440 120" preserveAspectRatio="none">
+    <path
+      fill="var(--primary-blue)"
+      d="M0,0 H1440 V108 C1240,94 1160,66 1010,38 C820,2 560,34 335,58 C190,75 70,104 0,82 Z">
+    </path>
+  </svg>
+
+</body>
+</html>
+    <main class="recent-objects-carousel" id="carouselContainer">
+        <div class="carousel-header-overlay">
             <h3>Objetos Encontrados <span>Hoy</span></h3>
             <hr class="divider">
-            
-            <div class="objects-grid">
-                <?php if (!empty($objetosDeHoy)): ?>
-                    <?php foreach ($objetosDeHoy as $obj): ?>
-                        <div class="object-circle" onclick="abrirModalDetalle(
-                            '<?php echo htmlspecialchars($obj->getNombre(), ENT_QUOTES); ?>', 
-                            '<?php echo htmlspecialchars($obj->getDescripcion() ?? '', ENT_QUOTES); ?>', 
-                            '<?php echo htmlspecialchars($obj->getColor() ?? '', ENT_QUOTES); ?>', 
-                            '<?php echo htmlspecialchars($obj->getMarca() ?? '', ENT_QUOTES); ?>', 
-                            '<?php echo $obj->getFechaEncontrado(); ?>', 
-                            '<?php echo htmlspecialchars($obj->getFoto() ?? 'img/default.png', ENT_QUOTES); ?>'
-                        )">
-                            <img src="<?php echo $obj->getFoto() ? htmlspecialchars($obj->getFoto()) : 'img/default.png'; ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
-                            <p class="obj-grid-title"><?php echo htmlspecialchars($obj->getNombre()); ?></p>
+        </div>
+        
+        <div class="carousel-track" id="carouselTrack">
+            <?php if (!empty($objetosDeHoy)): ?>
+                <?php foreach ($objetosDeHoy as $obj): ?>
+                    <?php 
+                        $fotoRuta = $obj->getFoto() ? $obj->getFoto() : 'img/default.png'; 
+                    ?>
+                    <div class="carousel-item" onclick="abrirModalDetalle(
+                        '<?php echo htmlspecialchars($obj->getNombre(), ENT_QUOTES); ?>', 
+                        '<?php echo htmlspecialchars($obj->getDescripcion() ?? '', ENT_QUOTES); ?>', 
+                        '<?php echo htmlspecialchars($obj->getColor() ?? '', ENT_QUOTES); ?>', 
+                        '<?php echo htmlspecialchars($obj->getMarca() ?? '', ENT_QUOTES); ?>', 
+                        '<?php echo $obj->getFechaEncontrado(); ?>', 
+                        '<?php echo htmlspecialchars($fotoRuta, ENT_QUOTES); ?>'
+                    )">
+                        <div class="object-circle-carousel">
+                            <img src="<?php echo htmlspecialchars($fotoRuta); ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
                         </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <p style="text-align: center; color: #666; width: 100%;">No se han reportado objetos en el día de hoy.</p>
-                <?php endif; ?>
-            </div>
+                        <p class="obj-carousel-title"><?php echo htmlspecialchars($obj->getNombre()); ?></p>
+                    </div>
+                <?php endforeach; ?>
+                
+                <?php foreach ($objetosDeHoy as $obj): ?>
+                    <?php 
+                        $fotoRuta = $obj->getFoto() ? $obj->getFoto() : 'img/default.png'; 
+                    ?>
+                    <div class="carousel-item" onclick="abrirModalDetalle(
+                        '<?php echo htmlspecialchars($obj->getNombre(), ENT_QUOTES); ?>', 
+                        '<?php echo htmlspecialchars($obj->getDescripcion() ?? '', ENT_QUOTES); ?>', 
+                        '<?php echo htmlspecialchars($obj->getColor() ?? '', ENT_QUOTES); ?>', 
+                        '<?php echo htmlspecialchars($obj->getMarca() ?? '', ENT_QUOTES); ?>', 
+                        '<?php echo $obj->getFechaEncontrado(); ?>', 
+                        '<?php echo htmlspecialchars($fotoRuta, ENT_QUOTES); ?>'
+                    )">
+                        <div class="object-circle-carousel">
+                            <img src="<?php echo htmlspecialchars($fotoRuta); ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
+                        </div>
+                        <p class="obj-carousel-title"><?php echo htmlspecialchars($obj->getNombre()); ?></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p style="text-align: center; color: #666; width: 100%; padding: 40px 0;">No se han reportado objetos en el día de hoy.</p>
+            <?php endif; ?>
         </div>
     </main>
 
@@ -181,15 +214,18 @@ try {
                 <div class="objects-grid" id="gridPertenencias" style="margin-top: 30px;">
                     <?php if (!empty($todosLosObjetos)): ?>
                         <?php foreach ($todosLosObjetos as $obj): ?>
+                            <?php 
+                                $fotoGrid = $obj->getFoto() ? $obj->getFoto() : 'img/default.png'; 
+                            ?>
                             <div class="object-circle" onclick="abrirModalDetalle(
                                 '<?php echo htmlspecialchars($obj->getNombre(), ENT_QUOTES); ?>', 
                                 '<?php echo htmlspecialchars($obj->getDescripcion() ?? '', ENT_QUOTES); ?>', 
                                 '<?php echo htmlspecialchars($obj->getColor() ?? '', ENT_QUOTES); ?>', 
                                 '<?php echo htmlspecialchars($obj->getMarca() ?? '', ENT_QUOTES); ?>', 
                                 '<?php echo $obj->getFechaEncontrado(); ?>', 
-                                '<?php echo htmlspecialchars($obj->getFoto() ?? 'img/default.png', ENT_QUOTES); ?>'
+                                '<?php echo htmlspecialchars($fotoGrid, ENT_QUOTES); ?>'
                             )">
-                                <img src="<?php echo $obj->getFoto() ? htmlspecialchars($obj->getFoto()) : 'img/default.png'; ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
+                                <img src="<?php echo htmlspecialchars($fotoGrid); ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
                                 <p class="obj-grid-title" style="color: #ffffff;"><?php echo htmlspecialchars($obj->getNombre()); ?></p>
                             </div>
                         <?php endforeach; ?>
@@ -203,7 +239,7 @@ try {
 
     <section class="process-section">
         <div class="container">
-            <h3>¿Cómo recuperar un objeto?</h3>
+            <h3>¿Cómo recuperar un objecto?</h3>
             <hr class="divider-white">
             <p class="process-subtitle">Sigue estos tres sencillos pasos para reclamar una pertenencia</p>
             
@@ -258,7 +294,6 @@ try {
         const selectCategoria = document.getElementById('selectCategoria');
         const inputBusqueda = document.getElementById('inputBusqueda');
 
-        // Escuchar tanto el cambio de select como la escritura en el input
         selectCategoria.addEventListener('change', ejecutarFiltro);
         inputBusqueda.addEventListener('input', ejecutarFiltro);
 
@@ -267,7 +302,6 @@ try {
             const textoBusqueda = inputBusqueda.value.trim();
             const gridPertenencias = document.getElementById('gridPertenencias');
 
-            // Enviamos ambos parámetros al backend (Asegúrate de actualizar tu buscar.php para recibir texto si lo deseas)
             let url = `consultas_php/usuario/buscar.php?id_categoria=${idCategoria}&texto=${encodeURIComponent(textoBusqueda)}`;
 
             fetch(url)
@@ -322,6 +356,48 @@ try {
         window.onclick = function(e) {
             const modal = document.getElementById('modalDetalleObjeto');
             if (e.target === modal) modal.style.display = 'none';
+        }
+
+        // --- ANIMACIÓN INTERACTIVA DEL CARRUSEL INFINITO ---
+        const container = document.getElementById('carouselContainer');
+        const track = document.getElementById('carouselTrack');
+
+        if (track && container) {
+            let posicionX = 0;
+            let velocidad = 1; 
+
+            container.addEventListener('mousemove', (e) => {
+                const anchoContenedor = container.offsetWidth;
+                const mouseX = e.clientX - container.getBoundingClientRect().left;
+
+                if (mouseX < anchoContenedor / 2) {
+                    velocidad = -1.5; 
+                } else {
+                    velocidad = 1.5;
+                }
+            });
+
+            container.addEventListener('mouseleave', () => {
+                velocidad = 1; 
+            });
+
+            function animarCarrusel() {
+                posicionX += velocidad;
+                const mitadAncho = track.scrollWidth / 2;
+
+                if (posicionX >= 0 && velocidad > 0) {
+                    posicionX = -mitadAncho;
+                } else if (posicionX <= -mitadAncho && velocidad < 0) {
+                    posicionX = 0;
+                }
+
+                track.style.transform = `translate3d(${posicionX}px, 0px, 0px)`;
+                requestAnimationFrame(animarCarrusel);
+            }
+
+            if (track.children.length > 1) {
+                requestAnimationFrame(animarCarrusel);
+            }
         }
     </script>
 </body>

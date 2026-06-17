@@ -56,27 +56,32 @@ body {
     text-align: center;
 }
 
-/* --- HERO / HEADER --- */
+/* --- HERO / HEADER CORREGIDO --- */
 .hero {
     background: linear-gradient(180deg, #001a4d 0%, var(--primary-blue) 100%);
     color: var(--text-white);
     position: relative;
-    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    /* Ponemos un padding arriba y abajo bajo y uniforme sin que se rompa nada */
+    padding: 40px 0 80px 0; 
     overflow: hidden;
 }
 
 .navbar {
     display: flex;
     justify-content: flex-end;
-    padding: 20px 0;
-    position: absolute;
-    top: 0;
     width: 100%;
-    padding: 20px 40px;
+    /* Quitamos el absolute para que no flote sobre el texto */
+    padding: 10px 0; 
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 40px auto 0 auto; /* Le damos un pequeño margen arriba respecto a los botones */
+    width: 90%;
+    padding: 0 20px;
 }
 
 .auth-buttons {
@@ -99,13 +104,6 @@ body {
     color: var(--primary-blue);
 }
 
-.hero-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    width: 90%;
-    padding: 0 20px;
-}
 
 .hero-content h1 {
     font-size: 3.5rem;
@@ -447,7 +445,7 @@ body {
     }
     
     .about-image-container {
-        order: -1; /* Mueve la imagen arriba en pantallas chicas */
+        order: -1;
     }
 
     .hero-content h1 {
@@ -673,4 +671,90 @@ body {
         padding: 5px 12px;
         font-size: 0.75rem;
     }
+}
+
+/* --- CLASE DE INTEGRACIÓN: COMPLEMENTOS PARA EL INDEX NUEVO --- */
+.obj-grid-title {
+    margin-top: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* --- NUEVAS CLASES PARA EL CARRUSEL EN PANTALLA COMPLETA --- */
+.recent-objects-carousel {
+    width: 100vw;
+    position: relative;
+    background-color: #fafbfc;
+    padding: 40px 0;
+    overflow: hidden;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.carousel-header-overlay {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.carousel-header-overlay h3 {
+    font-size: 2rem;
+    color: var(--dark-blue);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.carousel-header-overlay h3 span {
+    font-weight: 300;
+    color: var(--primary-blue);
+}
+
+.carousel-track {
+    display: block;
+    white-space: nowrap;
+    width: max-content;
+    padding: 15px 0;
+    will-change: transform;
+}
+
+.carousel-item {
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    width: 170px;
+    margin: 0 25px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.object-circle-carousel {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid var(--primary-blue);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+    margin: 0 auto;
+    background-color: #ffffff;
+}
+
+.object-circle-carousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-item:hover .object-circle-carousel {
+    transform: scale(1.12) rotate(3deg);
+    border-color: var(--light-blue);
+    box-shadow: 0 10px 25px rgba(0, 70, 199, 0.25);
+}
+
+.obj-carousel-title {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark-blue);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
