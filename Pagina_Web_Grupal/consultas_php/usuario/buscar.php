@@ -3,14 +3,16 @@
 header('Content-Type: application/json; charset=utf-8');
 
 try {
-    // Usamos __DIR__ para subir de manera exacta 2 niveles hasta la raíz donde está conexion.php
+    // Subimos dos niveles de forma exacta para incluir la arquitectura requerida
     if (file_exists(__DIR__ . '/../../conexion.php')) {
         require_once __DIR__ . '/../../conexion.php';
+        require_once __DIR__ . '/../../clases/php/Objeto.php'; 
+        require_once __DIR__ . '/../../clases/daos/objetoDao.php';
     } else {
-        throw new Exception("No se pudo encontrar el archivo de conexión en la raíz.");
+        throw new Exception("No se pudieron encontrar las dependencias en el servidor.");
     }
 
-    // Instanciamos y conectamos con PDO
+    // Instanciamos la conexión PDO
     $conexionObjeto = new Conexion();
     $db = $conexionObjeto->conectar();
 
@@ -18,28 +20,29 @@ try {
         throw new Exception("Error al establecer la conexión con la base de datos.");
     }
 
-    // Capturamos el id de la categoría enviado por la URL
+    // Inicializamos nuestro DAO inyectándole la conexión
+    $daoObjeto = new ObjetoDAO($db);
+
+    // Capturamos los parámetros que envía el Script de JS mediante la URL
     $id_categoria = isset($_GET['id_categoria']) ? trim($_GET['id_categoria']) : '';
+    $textoBusqueda = isset($_GET['texto']) ? trim($_GET['texto']) : '';
 
-    // Validamos si es una categoría numérica concreta o si se pidió "Todas"
-    if ($id_categoria !== '' && is_numeric($id_categoria)) {
-        $sql = "SELECT * FROM objeto WHERE id_categoria = :id_categoria ORDER BY fecha_registro DESC";
-        $stmt = $db->prepare($sql);
-        $stmt->execute([':id_categoria' => (int)$id_categoria]);
-    } else {
-        $sql = "SELECT * FROM objeto ORDER BY fecha_registro DESC";
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
+    // Ejecutamos la consulta usando el nuevo método del DAO
+    $objetosFiltrados = $daoObjeto->buscarFiltrado($id_categoria, $textoBusqueda);
+
+    // Mapeamos los objetos a un formato de array plano compatible con el JSON que espera JavaScript
+    $jsonResponse = [];
+    foreach ($objetosFiltrados as $obj) {
+        $jsonResponse[] = [
+            'id'          => $obj->getIdObjeto(),
+            'nombre'      => $obj->getNombre(),
+            'foto'        => $obj->getFoto(),
+            'descripcion' => $obj->getDescripcion()
+        ];
     }
 
-    $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    if ($resultados === false) {
-        $resultados = [];
-    }
-
-    // Retornamos los datos codificados en JSON
-    echo json_encode($resultados, JSON_UNESCAPED_UNICODE);
+    // Retornamos los datos codificados limpiamente en JSON
+    echo json_encode($jsonResponse, JSON_UNESCAPED_UNICODE);
 
 } catch (Exception $e) {
     http_response_code(500);

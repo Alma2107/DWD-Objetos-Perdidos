@@ -1,7 +1,7 @@
 <?php
 // Archivo: clases/daos/objetoDao.php
 
-// Usamos __DIR__ para evitar fallos de rutas relativas desde index.php
+// Usamos __DIR__ para evitar fallos de rutas relativas desde cualquier parte de la app
 require_once __DIR__ . '/dao.php';
 require_once __DIR__ . '/../php/objeto.php'; 
 require_once __DIR__ . '/../../conexion.php';
@@ -125,6 +125,52 @@ class ObjetoDAO implements dao {
         $stmt = $this->conexion->query($sql);
         $resultados = [];
 
+        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $resultados[] = new Objeto(
+                $fila['id_objeto'],
+                $fila['id_categoria'],
+                $fila['id_ubicacion'],
+                $fila['id_estado_objeto'],
+                $fila['id_administrador'],
+                $fila['nombre'],
+                $fila['descripcion'],
+                $fila['color'],
+                $fila['marca'],
+                $fila['fecha_encontrado'],
+                $fila['fecha_registro'],
+                $fila['foto'],
+                $fila['observaciones']
+            );
+        }
+        return $resultados;
+    }
+
+    /**
+     * Busca y filtra objetos por categoría y/o coincidencia de texto (nombre o descripción).
+     * Este método es el que consume de forma asíncrona consultas_php/usuario/buscar.php
+     */
+    public function buscarFiltrado($id_categoria = '', $texto = '') {
+        $sql = "SELECT * FROM objeto WHERE 1=1";
+        $params = [];
+
+        // Filtro por categoría si viene una opción seleccionada válida
+        if ($id_categoria !== '' && is_numeric($id_categoria)) {
+            $sql .= " AND id_categoria = :id_categoria";
+            $params[':id_categoria'] = (int)$id_categoria;
+        }
+
+        // Filtro por coincidencia de texto en nombre o descripción
+        if ($texto !== '') {
+            $sql .= " AND (nombre LIKE :texto OR descripcion LIKE :texto)";
+            $params[':texto'] = '%' . $texto . '%';
+        }
+
+        $sql .= " ORDER BY fecha_registro DESC";
+
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute($params);
+        
+        $resultados = [];
         while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $resultados[] = new Objeto(
                 $fila['id_objeto'],
