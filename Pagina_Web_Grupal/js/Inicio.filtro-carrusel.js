@@ -26,8 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (data && data.length > 0) {
                     data.forEach(obj => {
-                        const fotoRuta = obj.foto ? obj.foto : 'img/default.png';
-
+                    const fotoRuta = obj.foto ? 'uploads/' + obj.foto : 'img/default.png';
                         htmlResultado += `
                             <div class="object-circle">
                                 <img src="${fotoRuta}" alt="${obj.nombre}">

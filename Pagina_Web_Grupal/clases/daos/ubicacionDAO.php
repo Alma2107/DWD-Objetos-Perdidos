@@ -1,6 +1,6 @@
 <?php
 require_once 'dao.php';
-require_once '../php/Ubicacion.php';
+require_once __DIR__ . '/../php/Ubicacion.php';
 require_once '../conexion.php';
 
 class UbicacionDAO implements DAO {

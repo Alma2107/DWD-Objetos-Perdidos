@@ -1,6 +1,6 @@
 <?php
 require_once 'dao.php';
-require_once '../php/EstadoObjeto.php';
+require_once __DIR__ . '/../php/estadoObjeto.php';
 require_once '../conexion.php';
 
 class EstadoObjetoDAO implements DAO {

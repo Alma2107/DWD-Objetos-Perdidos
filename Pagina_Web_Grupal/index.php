@@ -85,7 +85,7 @@ try {
             <div class="carousel-track" id="carouselTrack">
                 <?php if (!empty($objetosDeHoy)): ?>
                     <?php foreach ($objetosDeHoy as $obj): ?>
-                        <?php $fotoRuta = $obj->getFoto() ? $obj->getFoto() : 'img/default.png'; ?>
+                        <?php $fotoRuta = $obj->getFoto() ? 'uploads/' . $obj->getFoto() : 'img/default.png';?>
                         <div class="carousel-item" data-id="<?php echo $obj->getIdObjeto(); ?>">
                             <div class="object-circle-carousel">
                                 <img src="<?php echo htmlspecialchars($fotoRuta); ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
@@ -137,7 +137,7 @@ try {
                     <div class="objects-grid" id="gridPertenencias">
                         <?php if (!empty($todosLosObjetos)): ?>
                             <?php foreach ($todosLosObjetos as $obj): ?>
-                                <?php $fotoGrid = $obj->getFoto() ? $obj->getFoto() : 'img/default.png'; ?>
+                                <?php $fotoGrid = $obj->getFoto() ? 'uploads/' . $obj->getFoto() : 'img/default.png'; ?>
                                 <div class="object-circle" data-id="<?php echo $obj->getIdObjeto(); ?>">
                                     <img src="<?php echo htmlspecialchars($fotoGrid); ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
                                     <p class="obj-grid-title"><?php echo htmlspecialchars($obj->getNombre()); ?></p>

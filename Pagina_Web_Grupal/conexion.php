@@ -3,7 +3,7 @@
 
 class Conexion {
     private string $host = "localhost";
-    private string $db_name = "tecnolohost"; 
+    private string $db_name = "tecnolost"; 
     private string $username = "root";       
     private string $password = "";        
     public $conn = null;
