@@ -169,5 +169,47 @@ public function insertar($obj): void {
     public function buscarPorId($id) {
         return $this->obtenerPorId($id);
     }
+
+    public function obtenerDetallePorId($id) {
+        $sql = "SELECT
+                    o.*,
+                    c.nombre AS categoria_nombre,
+                    u.nombre AS ubicacion_nombre,
+                    u.sector AS ubicacion_sector,
+                    eo.nombre AS estado_nombre
+                FROM objeto o
+                LEFT JOIN categoria c ON o.id_categoria = c.id_categoria
+                LEFT JOIN ubicacion u ON o.id_ubicacion = u.id_ubicacion
+                LEFT JOIN estado_objeto eo ON o.id_estado_objeto = eo.id_estado_objeto
+                WHERE o.id_objeto = ?";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute([$id]);
+        $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$fila) {
+            return null;
+        }
+
+        return [
+            'objeto' => new Objeto(
+                $fila['id_objeto'],
+                $fila['id_categoria'],
+                $fila['id_ubicacion'],
+                $fila['id_estado_objeto'],
+                $fila['id_administrador'],
+                $fila['nombre'],
+                $fila['descripcion'],
+                $fila['color'],
+                $fila['marca'],
+                $fila['fecha_encontrado'],
+                $fila['fecha_registro'],
+                $fila['foto'],
+                $fila['observaciones']
+            ),
+            'categoria' => $fila['categoria_nombre'],
+            'ubicacion' => trim(($fila['ubicacion_nombre'] ?? '') . ' ' . ($fila['ubicacion_sector'] ?? '')),
+            'estado' => $fila['estado_nombre']
+        ];
+    }
 }
 ?>

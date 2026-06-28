@@ -26,11 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (data && data.length > 0) {
                     data.forEach(obj => {
-                    const fotoRuta = obj.foto ? 'uploads/' + obj.foto : 'img/default.png';
+                    const fotoRuta = normalizarFoto(obj.foto);
                         htmlResultado += `
-                            <div class="object-circle">
-                                <img src="${fotoRuta}" alt="${obj.nombre}">
-                                <p class="obj-grid-title" style="color: #ffffff;">${obj.nombre}</p>
+                            <div class="object-circle" data-id="${escaparHtml(obj.id)}">
+                                <img src="${escaparHtml(fotoRuta)}" alt="${escaparHtml(obj.nombre)}">
+                                <p class="obj-grid-title" style="color: #ffffff;">${escaparHtml(obj.nombre)}</p>
                             </div>
                         `;
                     });
@@ -44,6 +44,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.error("Error:", err);
                 gridPertenencias.innerHTML = "<p class='error-fatal-message'>Error al procesar la búsqueda.</p>";
             });
+    }
+
+    function normalizarFoto(foto) {
+        if (!foto) return 'img/default.png';
+        if (foto.startsWith('uploads/') || foto.startsWith('img/') || foto.startsWith('http')) return foto;
+        return 'uploads/' + foto;
+    }
+
+    function escaparHtml(valor) {
+        return String(valor ?? '').replace(/[&<>"']/g, caracter => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        }[caracter]));
     }
 
     

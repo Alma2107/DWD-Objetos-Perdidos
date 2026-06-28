@@ -26,12 +26,20 @@ try {
 
 
     $daoObjeto = new ObjetoDAO($db);
-    $objeto = $daoObjeto->obtenerPorId((int)$id);
+    $detalle = $daoObjeto->obtenerDetallePorId((int)$id);
 
-    if (!$objeto) {
+    if (!$detalle) {
         http_response_code(404);
         echo json_encode(['error' => true, 'mensaje' => 'Objeto no encontrado.'], JSON_UNESCAPED_UNICODE);
         exit;
+    }
+
+    $objeto = $detalle['objeto'];
+    $foto = $objeto->getFoto();
+    if ($foto) {
+        $foto = preg_match('/^(uploads\/|img\/|https?:\/\/)/', $foto) ? $foto : 'uploads/' . $foto;
+    } else {
+        $foto = 'img/default.png';
     }
 
   
@@ -42,8 +50,11 @@ try {
         'color'            => $objeto->getColor(),
         'marca'            => $objeto->getMarca(),
         'fecha_encontrado' => $objeto->getFechaEncontrado(),
-        'foto'             => $objeto->getFoto() ? $objeto->getFoto() : 'img/default.png',
-        'observaciones'    => $objeto->getObservaciones()
+        'foto'             => $foto,
+        'observaciones'    => $objeto->getObservaciones(),
+        'categoria'        => $detalle['categoria'] ?: 'Sin categoria',
+        'ubicacion'        => $detalle['ubicacion'] ?: 'Sin ubicacion registrada',
+        'estado'           => $detalle['estado'] ?: 'En custodia'
     ];
 
     echo json_encode($respuesta, JSON_UNESCAPED_UNICODE);

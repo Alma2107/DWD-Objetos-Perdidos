@@ -1,7 +1,7 @@
 <?php
-require_once 'dao.php';
-require_once '../php/EstadoSolicitud.php';
-require_once '../conexion.php';
+require_once __DIR__ . '/dao.php';
+require_once __DIR__ . '/../php/EstadoSolicitud.php';
+require_once __DIR__ . '/../../conexion.php';
 
 class EstadoSolicitudDAO implements DAO {
     private $conexion;
@@ -62,6 +62,36 @@ class EstadoSolicitudDAO implements DAO {
             );
         }
         return $resultados;
+    }
+
+    public function obtenerEstadoInicial() {
+        $sql = "SELECT * FROM estado_solicitud
+                WHERE LOWER(nombre) IN ('pendiente', 'en revision')
+                   OR LOWER(nombre) LIKE 'en revisi%'
+                ORDER BY id_estado_solicitud ASC
+                LIMIT 1";
+        $stmt = $this->conexion->query($sql);
+        $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$fila) {
+            $estados = $this->listarTodos();
+            if (!empty($estados)) {
+                return $estados[0];
+            }
+
+            $this->insertar(new EstadoSolicitud(
+                null,
+                'Pendiente',
+                'Solicitud recibida y pendiente de revision.'
+            ));
+            return $this->obtenerPorId((int)$this->conexion->lastInsertId());
+        }
+
+        return new EstadoSolicitud(
+            $fila['id_estado_solicitud'],
+            $fila['nombre'],
+            $fila['descripcion']
+        );
     }
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
-require_once 'dao.php';
-require_once '../php/Solicitante.php';
-require_once '../conexion.php';
+require_once __DIR__ . '/dao.php';
+require_once __DIR__ . '/../php/Solicitante.php';
+require_once __DIR__ . '/../../conexion.php';
 
 class SolicitanteDAO implements DAO {
     private $conexion;
@@ -21,6 +21,11 @@ class SolicitanteDAO implements DAO {
             $solicitante->getEmail(), 
             $solicitante->getTelefono()
         ]);
+    }
+
+    public function insertarYObtenerId($solicitante) {
+        $this->insertar($solicitante);
+        return (int)$this->conexion->lastInsertId();
     }
 
     public function modificar($solicitante) {

@@ -65,9 +65,9 @@ try {
         <section class="hero">
             <div class="hero-content">
                 <h1>Tecnolost</h1>
-                <h2>Panel de Control y Visualización de Objetos</h2>
+                <h2>Aplicación de objetos perdidos</h2>
                 <p class="hero-description">
-                    Bienvenido al sistema inteligente de gestión. Filtra, encuentra y reporta pertenencias extraviadas de forma rápida y centralizada.
+                    ¿Perdiste tu cartuchera, abrigo o celular en el instituto? Busca lo que se encontro y envia tu solicitud de reclamo de forma organizada.
                 </p>
             </div>
         </section>
@@ -168,15 +168,15 @@ try {
                     <div class="process-step">
                         <div class="step-number">2</div>
                         <div class="step-text">
-                            <h4>Inicia el Reclamo</h4>
-                            <p>Presiona sobre el objeto para ver los detalles y acércate al administrador con la información del elemento.</p>
+                        <h4>Inicia el Reclamo</h4>
+                        <p>Presiona sobre el objeto, revisa sus detalles y completa la solicitud con tus datos.</p>
                         </div>
                     </div>
                     <div class="process-step">
                         <div class="step-number">3</div>
                         <div class="step-text">
-                            <h4>Validación y Retiro</h4>
-                            <p>Una vez verificada la propiedad por el personal en la biblioteca, se te hará entrega inmediata del mismo.</p>
+                        <h4>Validación y Retiro</h4>
+                        <p>Cuando se revise la solicitud, se coordinara la validacion y entrega del objeto.</p>
                         </div>
                     </div>
                 </div>
