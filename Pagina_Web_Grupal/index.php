@@ -32,6 +32,18 @@ try {
     echo "Error al inicializar la aplicación: " . $e->getMessage();
     exit;
 }
+
+function rutaFotoObjeto($foto) {
+    if (!$foto) {
+        return 'img/default.png';
+    }
+
+    if (preg_match('/^(uploads\/|img\/|https?:\/\/)/', $foto)) {
+        return $foto;
+    }
+
+    return 'uploads/' . $foto;
+}
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +67,7 @@ try {
                 <div class="auth-buttons">
                     <button id="btnInicioNav" class="btn btn-nav btn-outline"><i class="fa-solid fa-house"></i> Inicio</button>
                     <button id="btnReclamarNav" class="btn btn-nav btn-reclamar" style="display: none;"><i class="fa-solid fa-hand-holding-hand"></i> Reclamar Objeto</button>
-                    <a href="#" class="btn btn-nav btn-outline"><i class="fa-solid fa-user-gear"></i> Admin</a>
+                    <a href="panel_admin/admin_panel.php" class="btn btn-nav btn-outline"><i class="fa-solid fa-user-gear"></i> Admin</a>
                 </div>
             </nav>
         </div>
@@ -85,7 +97,7 @@ try {
             <div class="carousel-track" id="carouselTrack">
                 <?php if (!empty($objetosDeHoy)): ?>
                     <?php foreach ($objetosDeHoy as $obj): ?>
-                        <?php $fotoRuta = $obj->getFoto() ? 'uploads/' . $obj->getFoto() : 'img/default.png';?>
+                        <?php $fotoRuta = rutaFotoObjeto($obj->getFoto()); ?>
                         <div class="carousel-item" data-id="<?php echo $obj->getIdObjeto(); ?>">
                             <div class="object-circle-carousel">
                                 <img src="<?php echo htmlspecialchars($fotoRuta); ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
@@ -95,7 +107,7 @@ try {
                     <?php endforeach; ?>
                    
                     <?php foreach ($objetosDeHoy as $obj): ?>
-                        <?php $fotoRuta = $obj->getFoto() ? $obj->getFoto() : 'img/default.png'; ?>
+                        <?php $fotoRuta = rutaFotoObjeto($obj->getFoto()); ?>
                         <div class="carousel-item" data-id="<?php echo $obj->getIdObjeto(); ?>">
                             <div class="object-circle-carousel">
                                 <img src="<?php echo htmlspecialchars($fotoRuta); ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
@@ -137,7 +149,7 @@ try {
                     <div class="objects-grid" id="gridPertenencias">
                         <?php if (!empty($todosLosObjetos)): ?>
                             <?php foreach ($todosLosObjetos as $obj): ?>
-                                <?php $fotoGrid = $obj->getFoto() ? 'uploads/' . $obj->getFoto() : 'img/default.png'; ?>
+                                <?php $fotoGrid = rutaFotoObjeto($obj->getFoto()); ?>
                                 <div class="object-circle" data-id="<?php echo $obj->getIdObjeto(); ?>">
                                     <img src="<?php echo htmlspecialchars($fotoGrid); ?>" alt="<?php echo htmlspecialchars($obj->getNombre()); ?>">
                                     <p class="obj-grid-title"><?php echo htmlspecialchars($obj->getNombre()); ?></p>

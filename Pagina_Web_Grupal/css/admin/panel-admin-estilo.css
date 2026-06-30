@@ -256,7 +256,8 @@ body {
 }
 
 .input-group input,
-.input-group textarea {
+.input-group textarea,
+.input-group select {
     width: 100%;
     padding: 16px 20px;
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -274,15 +275,50 @@ body {
 }
 
 .input-group input:focus,
-.input-group textarea:focus {
+.input-group textarea:focus,
+.input-group select:focus {
     border-color: #72a3ff;
     background: rgba(12, 26, 64, 0.8);
     box-shadow: 0 0 0 4px rgba(114, 163, 255, 0.15);
 }
 
+.input-group select option {
+    background: #0c1a40;
+    color: #ffffff;
+}
+
 .input-group textarea {
     resize: none;
     min-height: 120px;
+}
+
+.optional-label {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.82rem;
+    font-style: italic;
+    text-transform: none;
+}
+
+.alert {
+    width: 100%;
+    max-width: 900px;
+    margin: -28px auto 24px;
+    padding: 15px 18px;
+    border-radius: 14px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.alert-success {
+    background: rgba(46, 204, 113, 0.18);
+    border: 1px solid rgba(46, 204, 113, 0.75);
+    color: #8dffba;
+}
+
+.alert-error {
+    background: rgba(231, 76, 60, 0.18);
+    border: 1px solid rgba(231, 76, 60, 0.75);
+    color: #ffb4aa;
 }
 
 /* =========================
@@ -298,7 +334,8 @@ body {
 
 .btn-enviar,
 .btn-volver,
-.btn-agregar-imagen {
+.btn-agregar-imagen,
+.btn-limpiar-foto {
     border: none;
     border-radius: 14px;
     font-weight: 700;
@@ -349,6 +386,20 @@ body {
     transform: translateY(-2px);
 }
 
+.btn-limpiar-foto {
+    width: 100%;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.btn-limpiar-foto:hover {
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
 /* =========================
    ZONA DE IMAGEN MODERNA
    ========================= */
@@ -357,6 +408,11 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+.image-upload-section h3 {
+    color: #72a3ff;
+    font-size: 1.35rem;
 }
 
 .image-preview-box {
@@ -380,6 +436,13 @@ body {
     background: rgba(12, 26, 64, 0.7);
 }
 
+.image-preview-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 18px;
+}
+
 .preview-placeholder {
     color: rgba(255, 255, 255, 0.4);
     font-weight: 500;
@@ -389,6 +452,29 @@ body {
 
 .file-input-hidden {
     display: none;
+}
+
+.image-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.foto-help,
+.mensaje-foto {
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 0.88rem;
+    line-height: 1.45;
+}
+
+.foto-help strong {
+    color: #ffffff;
+}
+
+.mensaje-foto {
+    min-height: 20px;
+    color: #ffdf8c;
+    font-weight: 700;
 }
 
 /* =========================
