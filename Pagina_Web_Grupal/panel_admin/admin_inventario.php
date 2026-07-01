@@ -24,6 +24,7 @@ try {
             INNER JOIN categoria c ON o.id_categoria = c.id_categoria
             INNER JOIN ubicacion u ON o.id_ubicacion = u.id_ubicacion
             INNER JOIN estado_objeto eo ON o.id_estado_objeto = eo.id_estado_objeto
+            WHERE NOT (LOWER(eo.nombre) LIKE '%devuelto%' OR LOWER(eo.nombre) LIKE '%entregado%' OR LOWER(eo.nombre) LIKE '%reclam%')
             ORDER BY o.fecha_registro DESC, o.id_objeto DESC";
     $objetos = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     $categorias = $db->query('SELECT nombre FROM categoria ORDER BY nombre')->fetchAll(PDO::FETCH_COLUMN);
@@ -72,7 +73,7 @@ function textoAccionObjeto($estado) {
         return 'Ya solicitado';
     }
 
-    return 'En almacen';
+    return 'Disponible';
 }
 ?>
 <!DOCTYPE html>
@@ -97,8 +98,10 @@ function textoAccionObjeto($estado) {
                 </div>
             </div>
             <nav class="nav-menu">
+                <a href="../index.php" class="nav-btn"><i class="fa-solid fa-arrow-left"></i>Volver a la web</a>
                 <a href="admin_panel.php" class="nav-btn"><i class="fa-solid fa-house"></i>Dashboard</a>
                 <a href="admin_inventario.php" class="nav-btn active"><i class="fa-solid fa-boxes-stacked"></i>Inventario</a>
+                <a href="admin_entregados.php" class="nav-btn"><i class="fa-solid fa-check-double"></i>Entregados</a>
                 <a href="admin_solicitudes.php" class="nav-btn"><i class="fa-solid fa-handshake-angle"></i>Solicitudes</a>
                 <a href="admin_registrar.php" class="nav-btn"><i class="fa-solid fa-clipboard-list"></i>Registros</a>
             </nav>

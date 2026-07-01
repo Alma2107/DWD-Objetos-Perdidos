@@ -22,8 +22,16 @@ try {
             INNER JOIN solicitante sol ON s.id_solicitante = sol.id_solicitante
             INNER JOIN objeto o ON s.id_objeto = o.id_objeto
             INNER JOIN estado_solicitud es ON s.id_estado_solicitud = es.id_estado_solicitud
+            WHERE LOWER(es.nombre) LIKE '%pendiente%'
             ORDER BY s.fecha_solicitud DESC, s.id_solicitud DESC";
     $solicitudes = $db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    // Depuración opcional: mostrar datos si se solicita con ?debug=1
+    if (isset($_GET['debug']) && $_GET['debug'] == '1') {
+        echo '<pre style="background:#fff;border:1px solid #ccc;padding:12px;">';
+        echo "Solicitudes cargadas: " . count($solicitudes) . "\n\n";
+        print_r(array_slice($solicitudes, 0, 5));
+        echo '</pre>';
+    }
 } catch (Exception $e) {
     $error = $e->getMessage();
 }
@@ -37,6 +45,12 @@ try {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/admin/panel-admin-estilo.css">
+    <?php if (isset($_GET['force_show']) && $_GET['force_show'] == '1'): ?>
+    <style>
+        .match-card { outline: 3px dashed rgba(255,0,0,0.9) !important; background: #fffbe6 !important; display: block !important; opacity: 1 !important; transform: none !important; }
+        .request-card-grid { display: block !important; }
+    </style>
+    <?php endif; ?>
 </head>
 <body>
     <div class="dashboard-container">
@@ -50,8 +64,10 @@ try {
                 </div>
             </div>
             <nav class="nav-menu">
+                <a href="../index.php" class="nav-btn"><i class="fa-solid fa-arrow-left"></i>Volver a la web</a>
                 <a href="admin_panel.php" class="nav-btn"><i class="fa-solid fa-house"></i>Dashboard</a>
                 <a href="admin_inventario.php" class="nav-btn"><i class="fa-solid fa-boxes-stacked"></i>Inventario</a>
+                <a href="admin_entregados.php" class="nav-btn"><i class="fa-solid fa-check-double"></i>Entregados</a>
                 <a href="admin_solicitudes.php" class="nav-btn active"><i class="fa-solid fa-handshake-angle"></i>Solicitudes</a>
                 <a href="admin_registrar.php" class="nav-btn"><i class="fa-solid fa-clipboard-list"></i>Registros</a>
             </nav>
@@ -101,7 +117,7 @@ try {
                             $nombreCompleto = trim($solicitud['solicitante_nombre'] . ' ' . $solicitud['solicitante_apellido']);
                             $busqueda = strtolower($nombreCompleto . ' ' . $solicitud['objeto_nombre'] . ' ' . $solicitud['estado_solicitud']);
                         ?>
-                        <article class="match-card" data-search="<?php echo htmlspecialchars($busqueda); ?>">
+                            <article class="match-card" data-search="<?php echo htmlspecialchars($busqueda); ?>" data-id="<?php echo htmlspecialchars($solicitud['id_solicitud']); ?>">
                             <span class="status-badge reclamado match-badge">
                                 <span class="status-dot"></span>
                                 <?php echo htmlspecialchars($solicitud['estado_solicitud']); ?>
@@ -152,5 +168,43 @@ try {
             });
         });
     </script>
+    <?php if (isset($_GET['debug']) && $_GET['debug'] == '1'): ?>
+    <script>
+        // Debug DOM: cuenta .match-card y muestra un banner en la página (solo con ?debug=1)
+        document.addEventListener('DOMContentLoaded', function(){
+            try {
+                const cards = document.querySelectorAll('.match-card');
+                const banner = document.createElement('div');
+                banner.style.position = 'fixed';
+                banner.style.left = '12px';
+                banner.style.bottom = '12px';
+                banner.style.zIndex = 99999;
+                banner.style.background = 'rgba(0,0,0,0.7)';
+                banner.style.color = 'white';
+                banner.style.padding = '8px 12px';
+                banner.style.borderRadius = '8px';
+                banner.style.fontWeight = '700';
+                banner.textContent = 'DOM .match-card count: ' + cards.length;
+                document.body.appendChild(banner);
+
+                if (cards.length > 0) {
+                    const info = document.createElement('pre');
+                    info.style.position = 'fixed';
+                    info.style.right = '12px';
+                    info.style.bottom = '12px';
+                    info.style.zIndex = 99999;
+                    info.style.background = 'rgba(255,255,255,0.95)';
+                    info.style.color = '#111';
+                    info.style.padding = '8px 12px';
+                    info.style.borderRadius = '8px';
+                    info.style.maxHeight = '220px';
+                    info.style.overflow = 'auto';
+                    info.textContent = Array.from(cards).slice(0,5).map(c=>c.innerText.trim().slice(0,120)).join('\n---\n');
+                    document.body.appendChild(info);
+                }
+            } catch(e) { console.error(e); }
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>

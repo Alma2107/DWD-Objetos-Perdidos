@@ -23,8 +23,10 @@ session_start();
                 </div>
             </div>
             <nav class="nav-menu">
+                <a href="../index.php" class="nav-btn"><i class="fa-solid fa-arrow-left"></i>Volver a la web</a>
                 <a href="admin_panel.php" class="nav-btn"><i class="fa-solid fa-house"></i>Dashboard</a>
                 <a href="admin_inventario.php" class="nav-btn"><i class="fa-solid fa-boxes-stacked"></i>Inventario</a>
+                <a href="admin_entregados.php" class="nav-btn"><i class="fa-solid fa-check-double"></i>Entregados</a>
                 <a href="admin_solicitudes.php" class="nav-btn"><i class="fa-solid fa-handshake-angle"></i>Solicitudes</a>
                 <a href="admin_registrar.php" class="nav-btn active"><i class="fa-solid fa-clipboard-list"></i>Registros</a>
             </nav>
@@ -140,9 +142,7 @@ session_start();
                 </div>
             </form>
 
-            <footer class="content-footer">
-                <button type="button" class="btn-volver" onclick="window.history.back();">Volver</button>
-            </footer>
+           
         </main>
     </div>
 

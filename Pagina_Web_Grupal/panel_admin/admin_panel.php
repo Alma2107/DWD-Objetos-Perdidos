@@ -12,8 +12,11 @@ try {
     $conexionObjeto = new Conexion();
     $db = $conexionObjeto->conectar();
 
-    $totalSolicitudes = (int)$db->query('SELECT COUNT(*) FROM solicitud')->fetchColumn();
-    $totalInventario = (int)$db->query('SELECT COUNT(*) FROM objeto')->fetchColumn();
+    $totalSolicitudes = (int)$db->query("SELECT COUNT(*)
+        FROM solicitud s
+        INNER JOIN estado_solicitud es ON s.id_estado_solicitud = es.id_estado_solicitud
+        WHERE LOWER(es.nombre) LIKE '%pendiente%'")->fetchColumn();
+    $totalInventario = (int)$db->query("SELECT COUNT(*) FROM objeto o INNER JOIN estado_objeto eo ON o.id_estado_objeto = eo.id_estado_objeto WHERE NOT (LOWER(eo.nombre) LIKE '%devuelto%' OR LOWER(eo.nombre) LIKE '%entregado%' OR LOWER(eo.nombre) LIKE '%reclam%')")->fetchColumn();
     $totalEntregados = (int)$db->query("SELECT COUNT(*)
         FROM objeto o
         INNER JOIN estado_objeto eo ON o.id_estado_objeto = eo.id_estado_objeto
@@ -26,6 +29,7 @@ try {
         FROM objeto o
         INNER JOIN categoria c ON o.id_categoria = c.id_categoria
         INNER JOIN estado_objeto eo ON o.id_estado_objeto = eo.id_estado_objeto
+        WHERE NOT (LOWER(eo.nombre) LIKE '%devuelto%' OR LOWER(eo.nombre) LIKE '%entregado%' OR LOWER(eo.nombre) LIKE '%reclam%')
         ORDER BY o.fecha_registro DESC, o.id_objeto DESC
         LIMIT 4")->fetchAll(PDO::FETCH_ASSOC);
 
@@ -95,8 +99,10 @@ function estadoClaseAdmin($estado) {
             </div>
 
             <nav class="nav-menu">
+                <a href="../index.php" class="nav-btn"><i class="fa-solid fa-arrow-left"></i>Volver a la web</a>
                 <a href="admin_panel.php" class="nav-btn active"><i class="fa-solid fa-house"></i>Dashboard</a>
                 <a href="admin_inventario.php" class="nav-btn"><i class="fa-solid fa-boxes-stacked"></i>Inventario</a>
+                <a href="admin_entregados.php" class="nav-btn"><i class="fa-solid fa-check-double"></i>Entregados</a>
                 <a href="admin_solicitudes.php" class="nav-btn"><i class="fa-solid fa-handshake-angle"></i>Solicitudes</a>
                 <a href="admin_registrar.php" class="nav-btn"><i class="fa-solid fa-clipboard-list"></i>Registros</a>
             </nav>
@@ -138,7 +144,7 @@ function estadoClaseAdmin($estado) {
                 <div class="stat-card">
                     <div class="stat-info">
                         <h3><?php echo $totalInventario; ?></h3>
-                        <p>Total de inventario</p>
+                        <p>Disponibles</p>
                     </div>
                     <div class="stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
                 </div>
@@ -159,8 +165,8 @@ function estadoClaseAdmin($estado) {
 
                 <section class="dashboard-section">
                     <div class="section-header">
-                        <h2 class="section-title"><i class="fa-solid fa-clock-rotate-left"></i>Ultimos Registros</h2>
-                        <a class="panel-link" href="admin_inventario.php">Ver Inventario completo <i class="fa-solid fa-arrow-right"></i></a>
+                        <h2 class="section-title"><i class="fa-solid fa-clock-rotate-left"></i>Ultimos objetos disponibles</h2>
+                        <a class="panel-link" href="admin_inventario.php">Ver inventario disponible <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
 
                     <?php if (empty($ultimosObjetos)): ?>
