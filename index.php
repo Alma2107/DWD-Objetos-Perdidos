@@ -1,11 +1,17 @@
 ﻿<?php
+//iniciamos la sesion de php
+//para poder leer si el admin entro
+session_start();
 
-
+//cargamos los archivos necesarios
+//para que funcione la base de datos
 require_once __DIR__ . '/conexion.php';                 
 require_once __DIR__ . '/clases/php/Objeto.php';       
 require_once __DIR__ . '/clases/daos/objetoDao.php';   
 require_once __DIR__ . '/clases/php/Categoria.php';      
 require_once __DIR__ . '/clases/daos/categoriaDao.php';  
+
+
 
 try {
     $conexionObjeto = new Conexion();
@@ -64,10 +70,24 @@ function rutaFotoObjeto($foto) {
                 <div class="brand" id="btnLogoInicio" style="cursor:pointer;">
                     <h3><i class="fa-solid fa-magnifying-glass"></i> Tecnolost</h3>
                 </div>
-                <div class="auth-buttons">
+               <div class="auth-buttons">
                     <button id="btnInicioNav" class="btn btn-nav btn-outline"><i class="fa-solid fa-house"></i> Inicio</button>
                     <button id="btnReclamarNav" class="btn btn-nav btn-reclamar" style="display: none;"><i class="fa-solid fa-hand-holding-hand"></i> Reclamar Objeto</button>
-                    <a href="panel_admin/admin_panel.php" class="btn btn-nav btn-outline"><i class="fa-solid fa-user-gear"></i> Admin</a>
+                            
+                    <?php 
+                        //nos fijamos si existe la sesion
+                        //para saber si es el administrador
+                        if (isset($_SESSION['idAdmin'])): 
+                    ?>
+                        <a href="panel_admin/admin_panel.php" class="btn btn-nav btn-outline"><i class="fa-solid fa-user-gear"></i> Admin</a>
+                        <a href="consultas_php/admin/cerrar_sesion.php" class="btn btn-nav btn-outline"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
+                    <?php 
+                        //si no hay sesion activa
+                        //le mostramos el boton de entrar
+                        else: 
+                    ?>
+                    <a href="consultas_php/admin/login.php" class="btn btn-nav btn-outline"><i class="fa-solid fa-user-gear"></i> Admin</a>
+                    <?php endif; ?>
                 </div>
             </nav>
         </div>

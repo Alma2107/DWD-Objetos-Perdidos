@@ -13,8 +13,8 @@ try {
     }
 
     require_once __DIR__ . '/../../conexion.php';
-    require_once __DIR__ . '/../../clases/php/Solicitante.php';
-    require_once __DIR__ . '/../../clases/php/Solicitud.php';
+    require_once __DIR__ . '/../../clases/php/solicitante.php';
+    require_once __DIR__ . '/../../clases/php/solicitud.php';
     require_once __DIR__ . '/../../clases/daos/solicitanteDao.php';
     require_once __DIR__ . '/../../clases/daos/solicitudDao.php';
     require_once __DIR__ . '/../../clases/daos/estadoSolicitudDao.php';

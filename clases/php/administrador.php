@@ -48,7 +48,7 @@ class Administrador {
 
     public function getContrasena() { 
         return $this->contrasena;      
-    } // <-- Aquí se cerró correctamente la llave que faltaba
+    } 
 
     public function setContrasena($contrasena) { 
         $this->contrasena = $contrasena; 

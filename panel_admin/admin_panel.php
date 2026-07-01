@@ -1,4 +1,5 @@
 <?php
+require_once '../consultas_php/admin/verificar_sesion.php';
 require_once __DIR__ . '/../conexion.php';
 
 $totalSolicitudes = 0;
