@@ -584,8 +584,8 @@ div.user-avatar {
 .btn-see-all:hover { background-color: rgba(37,99,235,0.12); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37,99,235,0.08); }
 
 /* Tablas */
-.table-responsive { overflow-x: auto; }
-.custom-table, .admin-table, .recent-table { width: 100%; border-collapse: collapse; text-align: left; }
+.table-responsive, .admin-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.custom-table, .admin-table, .recent-table { width: 100%; min-width: 720px; border-collapse: collapse; text-align: left; }
 
 .custom-table th, .admin-table th, .recent-table th {
     padding: 18px 20px;
@@ -605,6 +605,14 @@ div.user-avatar {
     font-weight: 600;
     border-bottom: 1px solid rgba(37, 99, 235, 0.08);
     transition: var(--transition-smooth);
+}
+
+.custom-table tr:hover td, .admin-table tbody tr:hover td, .recent-table tr:hover td {
+    background-color: rgba(37, 99, 235, 0.05);
+}
+
+.custom-table td, .admin-table td, .recent-table td {
+    white-space: nowrap;
 }
 
 .custom-table tr:hover td, .admin-table tbody tr:hover td, .recent-table tr:hover td {
@@ -816,15 +824,26 @@ div.user-avatar {
     .topbar-right { justify-content: stretch; }
     .search-box { max-width: none; }
     .cards-grid, .inventory-grid, .requests-intro, .registro-page .form-grid-layout { grid-template-columns: 1fr; }
+    .dashboard-section, .inventory-card, .match-card, .request-summary-card, .form-card, .image-upload-section { padding: 22px; }
 }
 
 @media (max-width: 768px) {
-    .topbar { padding: 20px; flex-direction: column; gap: 16px; align-items: stretch; }
-    .topbar-right { justify-content: space-between; }
-    .search-container, .search-box { margin: 0; max-width: 100%; }
-    .dashboard-content { padding: 20px; }
+    .dashboard-container { flex-direction: column; }
+    .sidebar { width: 100%; max-width: 100%; height: 100vh; transform: translateX(-100%); }
+    .sidebar.active-sidebar { transform: translateX(0); }
+    .main-content { margin-left: 0; padding-bottom: 30px; }
+    .topbar { padding: 18px; flex-direction: column; gap: 16px; align-items: stretch; }
+    .topbar-right { justify-content: flex-start; flex-direction: column; align-items: stretch; gap: 14px; }
+    .search-container, .search-box { margin: 0; max-width: 100%; width: 100%; }
+    .user-card { width: 100%; justify-content: space-between; }
     .content-header, .table-panel, .form-grid-layout, .main-content > .cards-grid { padding-left: 20px; padding-right: 20px; }
-    .cards-grid { grid-template-columns: 1fr; }
+    .cards-grid, .bottom-grid, .inventory-grid, .request-card-grid, .requests-intro, .registro-page .form-grid-layout { grid-template-columns: 1fr; }
+    .admin-table th, .admin-table td, .recent-table th, .recent-table td { padding: 12px 10px; font-size: 0.95rem; }
+    .admin-table, .custom-table, .recent-table { min-width: 620px; }
+    .match-card, .inventory-card, .panel, .form-card, .dashboard-section, .request-summary-card { border-radius: 20px; }
     .nav-menu { padding: 18px 14px; }
+    .btn-see-all, .panel-link, .btn-volver, .btn-limpiar-foto, .btn-submit-creative, .btn-enviar { width: 100%; justify-content: center; }
+    .request-actions { flex-wrap: wrap; }
+    .request-actions button { flex: 1 1 48%; }
     .image-actions { grid-template-columns: 1fr; }
 }

@@ -20,6 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     backdrop.addEventListener('click', () => setOpen(false));
 
+    const navButtons = document.querySelectorAll('.nav-menu .nav-btn');
+    navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            if (window.innerWidth <= 992) {
+                setOpen(false);
+            }
+        });
+    });
+
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
             setOpen(false);
