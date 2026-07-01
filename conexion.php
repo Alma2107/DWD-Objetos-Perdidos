@@ -1,10 +1,10 @@
 <?php
 
 class Conexion {
-    private string $host = "localhost";
-    private string $db_name = "tecnolost"; 
-    private string $username = "root";       
-    private string $password = "";        
+    private string $host = "5.180.151.26";
+    private string $db_name = "objetos_perdidos"; 
+    private string $username = "perdidos_user";       
+    private string $password = "ProyectoPerdidosCarena26!";        
     public $conn = null;
 
     public function conectar() {
